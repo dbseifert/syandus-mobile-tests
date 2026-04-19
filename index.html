@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syandus Mobile Tests</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-heading: #222222;
+  --color-body: #666666;
+  --color-white: #ffffff;
+  --color-blue: #0070C0;
+  --color-blue-bright: #0090E8;
+  --bg-dark: #0A1A2E;
+  --bg-dark-card: #0F2540;
+  --bg-footer: #071525;
+  --glow-blue: rgba(0, 144, 232, 0.45);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: 'Inter Tight', sans-serif;
+  background: var(--bg-dark);
+  color: rgba(255,255,255,0.85);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 80px 24px 60px; }
+
+.brand {
+  font-size: 13px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--color-blue-bright);
+  margin-bottom: 16px;
+}
+h1 {
+  font-size: 42px; font-weight: 700; color: var(--color-white);
+  line-height: 1.1; margin-bottom: 16px;
+}
+.intro {
+  font-size: 17px; color: rgba(255,255,255,0.65);
+  margin-bottom: 48px; max-width: 560px;
+}
+
+.section-label {
+  font-size: 12px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.5px; color: rgba(255,255,255,0.4);
+  margin: 40px 0 16px; padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.section-label:first-of-type { margin-top: 0; }
+
+.page-list { list-style: none; display: grid; gap: 12px; }
+.page-card {
+  display: block;
+  background: var(--bg-dark-card);
+  border: 1px solid rgba(0, 144, 232, 0.15);
+  border-radius: 12px;
+  padding: 22px 24px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.page-card:hover, .page-card:focus-visible {
+  border-color: rgba(0, 144, 232, 0.55);
+  box-shadow: 0 0 20px rgba(0, 144, 232, 0.18);
+  transform: translateY(-2px);
+  outline: none;
+}
+.page-card-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.page-title {
+  font-size: 20px; font-weight: 700; color: var(--color-white);
+  margin-bottom: 4px;
+}
+.page-meta {
+  font-size: 13px; color: rgba(255,255,255,0.5);
+}
+.page-desc {
+  font-size: 14px; color: rgba(255,255,255,0.6);
+  margin-top: 10px; line-height: 1.5;
+}
+.arrow {
+  flex-shrink: 0;
+  font-size: 22px; color: var(--color-blue-bright);
+  line-height: 1;
+}
+.page-card.is-placeholder {
+  opacity: 0.5; pointer-events: none;
+}
+.status-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1px; padding: 3px 8px; border-radius: 4px;
+  vertical-align: middle; margin-left: 8px;
+}
+.status-tag--live { background: rgba(0, 144, 232, 0.18); color: var(--color-blue-bright); }
+.status-tag--soon { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+
+.footer-note {
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 13px; color: rgba(255,255,255,0.4);
+  line-height: 1.6;
+}
+.footer-note a { color: var(--color-blue-bright); text-decoration: none; }
+.footer-note a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .wrap { padding: 48px 20px 40px; }
+  h1 { font-size: 32px; }
+  .intro { font-size: 16px; margin-bottom: 36px; }
+  .page-card { padding: 18px 20px; }
+  .page-title { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="brand">Syandus</div>
+  <h1>Mobile Prototype Tests</h1>
+  <p class="intro">In-progress HTML prototypes for the syandus.com redesign. Tap a page to open it on this device.</p>
+
+  <div class="section-label">Available pages</div>
+  <ul class="page-list">
+
+    <li>
+      <a href="platform.html" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-title">Platform <span class="status-tag status-tag--live">Live</span></div>
+            <div class="page-meta">/alivesim-platform</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+        <div class="page-desc">The AliveSim platform page — hero, pillars, two-column explainers, process strip, comparison table, FAQ.</div>
+      </a>
+    </li>
+
+  </ul>
+
+  <div class="section-label">Coming soon</div>
+  <ul class="page-list">
+
+    <li>
+      <div class="page-card is-placeholder">
+        <div class="page-card-row">
+          <div>
+            <div class="page-title">Home <span class="status-tag status-tag--soon">Pending</span></div>
+            <div class="page-meta">/</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+        <div class="page-desc">Homepage with flip cards, stats, differentiator band, and testimonials.</div>
+      </div>
+    </li>
+
+    <li>
+      <div class="page-card is-placeholder">
+        <div class="page-card-row">
+          <div>
+            <div class="page-title">Learning &amp; Development <span class="status-tag status-tag--soon">Pending</span></div>
+            <div class="page-meta">/learning-and-development</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+        <div class="page-desc">L&amp;D solution page with icon grid, intro block, and FAQ.</div>
+      </div>
+    </li>
+
+    <li>
+      <div class="page-card is-placeholder">
+        <div class="page-card-row">
+          <div>
+            <div class="page-title">Sales Training <span class="status-tag status-tag--soon">Pending</span></div>
+            <div class="page-meta">/sales-training-and-coaching</div>
+          </div>
+          <div class="arrow">→</div>
+        </div>
+        <div class="page-desc">Sales solution page with differentiator band, case cards, process strip, and scenario accordion.</div>
+      </div>
+    </li>
+
+  </ul>
+
+  <div class="footer-note">
+    Prototypes hosted on GitHub Pages. Source of truth: HTML prototypes in this repo. Canonical CSS lives separately and becomes the Tailwind config for the Next.js build.
+  </div>
+</div>
+
+</body>
+</html>
