@@ -359,6 +359,14 @@ strong { font-weight: 700; color: var(--color-heading); }
 }
 .faq-header:hover { background: rgba(0, 144, 232, 0.04); }
 
+.faq-icon {
+  flex-shrink: 0; width: 42px; height: 42px;
+  background: var(--color-blue); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 12px var(--glow-blue);
+}
+.faq-icon svg { width: 20px; height: 20px; }
+
 .faq-title {
   flex: 1; text-align: left; font-size: 19px; font-weight: 700; color: var(--color-heading);
 }
@@ -371,14 +379,15 @@ strong { font-weight: 700; color: var(--color-heading); }
 
 .faq-answer {
   display: none;
-  padding: 0 16px 24px 16px;
+  padding: 0 16px 24px 74px;
 }
 .faq-answer p {
   font-size: 16px; color: var(--color-body); margin-bottom: 0; line-height: 1.6;
 }
 
-/* Mobile FAQ: tighter padding, slightly smaller title */
+/* Mobile FAQ: drop icon, tighter padding, slightly smaller title */
 @media (max-width: 992px) {
+  .faq-icon { display: none; }
   .faq-header { padding: 18px 8px; gap: 12px; }
   .faq-title { font-size: 17px; }
   .faq-answer { padding: 0 8px 20px 8px; }
@@ -991,6 +1000,9 @@ a:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2
 
       <div class="faq-item">
         <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
           <span class="faq-title">What makes AliveSim different from AI chatbot role-play tools?</span>
           <span class="faq-chevron">▸</span>
         </button>
@@ -1001,6 +1013,9 @@ a:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2
 
       <div class="faq-item">
         <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
           <span class="faq-title">How long does it take to create an AliveSim scenario?</span>
           <span class="faq-chevron">▸</span>
         </button>
@@ -1011,6 +1026,9 @@ a:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2
 
       <div class="faq-item">
         <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
           <span class="faq-title">Does AliveSim integrate with our existing LMS?</span>
           <span class="faq-chevron">▸</span>
         </button>
@@ -1021,6 +1039,9 @@ a:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2
 
       <div class="faq-item">
         <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
           <span class="faq-title">What kind of analytics does AliveSim provide?</span>
           <span class="faq-chevron">▸</span>
         </button>
@@ -1031,6 +1052,9 @@ a:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2
 
       <div class="faq-item">
         <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
           <span class="faq-title">Is AliveSim secure enough for enterprise deployment?</span>
           <span class="faq-chevron">▸</span>
         </button>
