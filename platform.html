@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AliveSim Platform | Syandus — Complete Your Learning Journeys</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --font-heading: 'Inter Tight', sans-serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --color-heading: #222222;
+  --color-body: #666666;
+  --color-white: #ffffff;
+  --color-blue: #0070C0;
+  --color-blue-bright: #0090E8;
+  --color-blue-dark: #004A80;
+  --color-orange: #E56125;
+  --color-orange-hover: #C94F1A;
+  --glow-blue: rgba(0, 144, 232, 0.45);
+  --glow-blue-strong: rgba(0, 144, 232, 0.6);
+  --glow-orange: rgba(229, 97, 37, 0.3);
+  --bg-white: #ffffff;
+  --bg-light: #F4F6F8;
+  --bg-dark: #0A1A2E;
+  --bg-dark-card: #0F2540;
+  --bg-footer: #071525;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
+  --shadow-btn: 0 4px 20px rgba(229, 97, 37, 0.35);
+  --shadow-btn-hover: 0 6px 30px rgba(229, 97, 37, 0.5);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --width-standard: 1440px;
+  --width-slim: 880px;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-body); color: var(--color-body); background: var(--bg-white); line-height: 1.5; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); color: var(--color-heading); line-height: 1.1; margin-bottom: 0.5rem; }
+h1 { font-size: 80px; font-weight: 700; }
+h2 { font-size: 50px; font-weight: 700; }
+h3 { font-size: 37px; font-weight: 700; }
+h4 { font-size: 28px; font-weight: 300; }
+h5 { font-size: 21px; font-weight: 700; }
+h6 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+p { margin-bottom: 1rem; }
+a { color: var(--color-blue); text-decoration: none; }
+a:hover { color: var(--color-blue-dark); }
+strong { font-weight: 700; color: var(--color-heading); }
+@media (max-width: 992px) {
+  h1 { font-size: 50px; }
+  h2 { font-size: 33px; }
+  h3 { font-size: 27px; }
+  h4 { font-size: 23px; }
+  p, li { font-size: 16px; }
+}
+
+/* ===== LAYOUT ===== */
+.container { max-width: var(--width-standard); margin: 0 auto; padding: 0 40px; }
+.container--slim { max-width: var(--width-slim); margin: 0 auto; padding: 0 40px; }
+.section { padding: 100px 0; }
+.section--light { background: var(--bg-light); }
+.section--dark { background: var(--bg-dark); }
+.section--dark h2, .section--dark h3, .section--dark h5 { color: var(--color-white); }
+.section--dark p { color: rgba(255,255,255,0.75); }
+.section--dark strong { color: var(--color-white); }
+.text-center { text-align: center; }
+
+/* ===== HEADER ===== */
+.header { position: sticky; top: 0; z-index: 100; background: var(--bg-white); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 16px 0; }
+.header .container { display: flex; align-items: center; justify-content: space-between; }
+.logo { height: 36px; }
+.nav { display: flex; align-items: center; gap: 32px; }
+.nav a { font-family: var(--font-body); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-heading); transition: color 0.2s; }
+.nav a:hover { color: var(--color-blue); }
+.btn { display: inline-block; font-family: var(--font-body); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: none; cursor: pointer; transition: all 0.25s ease; text-decoration: none; }
+.btn--primary { background: var(--color-orange); color: var(--color-white); padding: 18px 36px; border-radius: var(--radius-pill); box-shadow: var(--shadow-btn); }
+.btn--primary:hover { background: var(--color-orange-hover); color: var(--color-white); transform: scale(1.03); box-shadow: var(--shadow-btn-hover); }
+.btn--nav { background: transparent; color: var(--color-heading); border: 1.5px solid var(--color-heading); padding: 10px 20px; font-size: 12px; border-radius: var(--radius-pill); }
+.btn--nav:hover { background: var(--color-heading); color: var(--color-white); }
+
+/* ===== HERO ===== */
+.hero { position: relative; min-height: 580px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+.hero::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
+.hero-content { position: relative; z-index: 2; padding: 80px 40px; max-width: 1000px; }
+.hero h1 { color: var(--color-white); margin-bottom: 56px; font-size: 80px; }
+.hero .hero-tagline { color: var(--color-white); font-size: 30px; font-weight: 400; line-height: 1.3; font-family: var(--font-heading); }
+@media (max-width: 992px) {
+  .hero h1 { font-size: 38px; margin-bottom: 36px; }
+  .hero .hero-tagline { font-size: 20px; }
+}
+
+/* ===== PILLAR INTRO (from platform-components_2) ===== */
+.pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+@media (max-width: 992px) { .pillar-grid { grid-template-columns: 1fr; } }
+.pillar-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.pillar-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+.pillar-card h3 { font-size: 24px; margin-bottom: 12px; }
+.pillar-card p { font-size: 16px; color: var(--color-body); margin-bottom: 0; }
+.pillar-card::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--color-blue-bright);
+  border-radius: 2px;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 8px rgba(0, 144, 232, 0.3);
+}
+
+/* ===== TWO COLUMN ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.two-col--reverse { direction: rtl; }
+.two-col--reverse > * { direction: ltr; }
+@media (max-width: 992px) { .two-col { grid-template-columns: 1fr; gap: 40px; } .two-col--reverse { direction: ltr; } }
+.img-rounded { border-radius: var(--radius-lg); box-shadow: var(--shadow-md); width: 100%; height: auto; display: block; }
+
+/* Content lists */
+.content-list { list-style: none; padding: 0; margin: 0 0 1rem 0; }
+.content-list li { position: relative; padding-left: 20px; margin-bottom: 10px; line-height: 1.6; }
+.content-list li::before { content: '•'; position: absolute; left: 0; color: var(--color-blue-bright); font-weight: 700; }
+
+/* ===== PROCESS STRIP (from platform-components_2) ===== */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+}
+.process-grid-with-connectors { position: relative; }
+.process-grid-with-connectors::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(12.5% + 28px);
+  right: calc(12.5% + 28px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-blue-bright), rgba(0, 144, 232, 0.2), var(--color-blue-bright), rgba(0, 144, 232, 0.2), var(--color-blue-bright));
+  z-index: 0;
+}
+@media (max-width: 992px) {
+  .process-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .process-grid-with-connectors::before { display: none; }
+}
+@media (max-width: 600px) { .process-grid { grid-template-columns: 1fr; } }
+.process-step { text-align: center; position: relative; z-index: 1; padding: 0 8px; }
+.process-number {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--color-blue); color: var(--color-white);
+  font-family: var(--font-heading); font-size: 24px; font-weight: 800;
+  margin-bottom: 16px;
+  box-shadow: 0 0 15px var(--glow-blue), 0 0 30px rgba(0, 144, 232, 0.15);
+}
+.process-step h5 { text-transform: uppercase; letter-spacing: 1px; font-size: 16px; margin-bottom: 10px; color: var(--color-heading); }
+.process-step p { font-size: 15px; color: var(--color-body); margin-bottom: 0; line-height: 1.5; }
+
+/* ===== DARK CARD GRID ===== */
+.dark-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+@media (max-width: 992px) { .dark-card-grid { grid-template-columns: 1fr; } }
+.dark-card {
+  background: var(--bg-dark-card); border-radius: var(--radius-md); padding: 32px;
+  border: 1px solid rgba(0, 144, 232, 0.15);
+  box-shadow: 0 0 20px rgba(0, 144, 232, 0.08);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.dark-card:hover {
+  box-shadow: 0 0 35px var(--glow-blue), 0 0 70px rgba(0, 144, 232, 0.12);
+  border-color: rgba(0, 144, 232, 0.4);
+}
+.dark-card h5 { color: var(--color-white); margin-bottom: 12px; font-size: 20px; }
+.dark-card p { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 0; line-height: 1.5; }
+
+/* ===== IMAGE BAND ===== */
+.image-band { margin: 48px 0; overflow: hidden; border-radius: var(--radius-md); }
+.image-band img { width: 100%; height: 260px; object-fit: cover; display: block; box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+.image-placeholder {
+  width: 100%; height: 260px; border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--bg-dark-card) 0%, rgba(0, 144, 232, 0.15) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.3); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+}
+
+/* ===== PROVEN INNOVATION (from proven-innovation-prototype) ===== */
+.proven-section { background: var(--bg-light); padding: 100px 0; }
+.stats-row { display: flex; gap: 80px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+.stat { text-align: center; }
+.stat-number {
+  font-family: var(--font-heading); font-size: 72px; font-weight: 800;
+  color: var(--color-heading); line-height: 1; margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(0, 144, 232, 0.12), 0 0 40px rgba(0, 144, 232, 0.06);
+}
+.stat-label { font-size: 16px; color: var(--color-body); font-weight: 400; }
+.award-line { text-align: center; font-size: 17px; font-style: italic; color: var(--color-body); margin-bottom: 48px; padding-top: 8px; }
+.award-line strong { color: var(--color-heading); }
+.detail-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 960px; margin: 0 auto 40px; }
+@media (max-width: 992px) { .detail-cards { grid-template-columns: 1fr; } }
+.detail-card {
+  background: var(--bg-white); border-radius: var(--radius-lg); padding: 32px;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.06); transition: all 0.3s ease;
+}
+.detail-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.detail-card::before {
+  content: ''; display: block; width: 40px; height: 3px;
+  background: var(--color-blue-bright); border-radius: 2px; margin-bottom: 20px;
+  box-shadow: 0 0 8px rgba(0, 144, 232, 0.3);
+}
+.detail-card h5 { margin-bottom: 12px; }
+.detail-card p { font-size: 16px; color: var(--color-body); margin-bottom: 0; }
+.closing-statement { text-align: center; font-size: 20px; font-weight: 500; color: var(--color-heading); max-width: 700px; margin: 0 auto; font-style: italic; }
+
+/* ===== COMPARISON TABLE (from platform-components_2) ===== */
+.comparison-section { background: var(--bg-dark); padding: 80px 0; }
+.comparison-section h2 { color: var(--color-white); margin-bottom: 16px; }
+.comparison-section > .container > p { color: rgba(255,255,255,0.65); margin-bottom: 40px; }
+.comparison-table-wrap { overflow-x: auto; border-radius: var(--radius-md); max-width: 1000px; margin: 0 auto; }
+.comparison-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.comparison-table col.col-criteria { width: 26%; }
+.comparison-table col.col-alivesim { width: 37%; }
+.comparison-table col.col-freeform { width: 37%; }
+.comparison-table thead th {
+  background: var(--bg-dark-card); color: var(--color-white); font-weight: 700; font-size: 20px;
+  padding: 22px 24px; text-align: center; border-bottom: 3px solid rgba(0, 144, 232, 0.4);
+  vertical-align: bottom; line-height: 1.3;
+}
+.comparison-table thead th:first-child { border-radius: var(--radius-md) 0 0 0; }
+.comparison-table thead th:last-child { border-radius: 0 var(--radius-md) 0 0; }
+.comparison-table thead th.highlight { background: rgba(0, 144, 232, 0.12); border-bottom-color: var(--color-blue-bright); }
+.alivesim-logo { height: 22px; width: auto; vertical-align: middle; margin-right: 6px; position: relative; top: -2px; }
+.comparison-table tbody td {
+  padding: 20px 24px; color: rgba(255,255,255,0.75);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  vertical-align: top; font-size: 17px; line-height: 1.5;
+}
+.comparison-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.comparison-table tbody tr:last-child td { border-bottom: none; }
+.comparison-table tbody tr:last-child td:first-child { border-radius: 0 0 0 var(--radius-md); }
+.comparison-table tbody tr:last-child td:last-child { border-radius: 0 0 var(--radius-md) 0; }
+.comparison-table tbody td:first-child { font-weight: 700; color: var(--color-white); font-size: 18px; text-align: center; line-height: 1.3; }
+.comparison-table tbody td.highlight { background: rgba(0, 144, 232, 0.05); color: rgba(255,255,255,0.85); }
+.comparison-table tbody tr:nth-child(even) td.highlight { background: rgba(0, 144, 232, 0.08); }
+.comparison-table tbody tr { transition: background 0.2s ease; }
+.comparison-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+.comparison-table strong { color: var(--color-white); font-weight: 700; }
+
+/* Mobile: convert table to card-stack layout */
+@media (max-width: 992px) {
+  .comparison-table-wrap { overflow-x: visible; }
+  .comparison-table, .comparison-table colgroup, .comparison-table col { display: block; }
+  .comparison-table colgroup { display: none; }
+  .comparison-table thead { display: none; }
+  .comparison-table tbody { display: block; }
+  .comparison-table tbody tr {
+    display: block;
+    background: var(--bg-dark-card);
+    border: 1px solid rgba(0, 144, 232, 0.15);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .comparison-table tbody tr:nth-child(even) { background: var(--bg-dark-card); }
+  .comparison-table tbody tr:last-child td { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .comparison-table tbody tr:last-child td:last-child { border-bottom: none; border-radius: 0; }
+  .comparison-table tbody tr:last-child td:first-child { border-radius: 0; }
+  .comparison-table tbody td {
+    display: block;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0 !important;
+  }
+  /* Criteria cell becomes the card heading */
+  .comparison-table tbody td:first-child {
+    background: rgba(0, 144, 232, 0.08);
+    color: var(--color-white);
+    font-size: 16px;
+    text-align: left;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  /* Labeled cells (AliveSim / Freeform) show small label above content */
+  .comparison-table tbody td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--color-blue-bright);
+    margin-bottom: 6px;
+  }
+  .comparison-table tbody td[data-label="Freeform"]::before {
+    color: rgba(255,255,255,0.5);
+  }
+  .comparison-table tbody td.highlight {
+    background: rgba(0, 144, 232, 0.06);
+  }
+}
+
+/* ===== CTA BAND (Option D from home page) ===== */
+.cta-band { background: var(--bg-dark); padding: 80px 0; }
+.cta-card {
+  background: var(--bg-dark-card); border-radius: var(--radius-lg);
+  padding: 50px 60px; max-width: 800px; margin: 0 auto; text-align: center;
+  border: 2px solid rgba(0, 144, 232, 0.35);
+  box-shadow: 0 0 30px rgba(0, 144, 232, 0.15), inset 0 0 30px rgba(0, 144, 232, 0.03);
+  transition: all 0.4s ease; position: relative; overflow: hidden;
+}
+.cta-card::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 100%, rgba(0, 144, 232, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cta-card:hover {
+  border-color: rgba(0, 144, 232, 0.55);
+  box-shadow: 0 0 50px rgba(0, 144, 232, 0.25), 0 0 100px rgba(0, 144, 232, 0.08), inset 0 0 40px rgba(0, 144, 232, 0.04);
+}
+.cta-card h2 { color: var(--color-white); font-size: 32px; margin-bottom: 16px; }
+.cta-card p { color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 28px; }
+
+/* ===== FAQ ACCORDION (ScenarioAccordion style) ===== */
+.faq-accordion { max-width: 100%; }
+.faq-item {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+.faq-item:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
+.faq-item--active { border-left: 3px solid var(--color-blue-bright); }
+
+.faq-header {
+  display: flex; align-items: center; gap: 16px;
+  width: 100%; padding: 20px 16px;
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-heading); transition: background 0.2s ease;
+}
+.faq-header:hover { background: rgba(0, 144, 232, 0.04); }
+
+.faq-title {
+  flex: 1; text-align: left; font-size: 19px; font-weight: 700; color: var(--color-heading);
+}
+.faq-item--active .faq-title { color: var(--color-blue); }
+
+.faq-chevron {
+  flex-shrink: 0; font-size: 20px; color: var(--color-blue-bright);
+  transition: transform 0.2s ease;
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 16px 24px 16px;
+}
+.faq-answer p {
+  font-size: 16px; color: var(--color-body); margin-bottom: 0; line-height: 1.6;
+}
+
+/* Mobile FAQ: tighter padding, slightly smaller title */
+@media (max-width: 992px) {
+  .faq-header { padding: 18px 8px; gap: 12px; }
+  .faq-title { font-size: 17px; }
+  .faq-answer { padding: 0 8px 20px 8px; }
+}
+
+/* ===== FOOTER ===== */
+.footer-divider { height: 3px; background: var(--color-blue-bright); box-shadow: 0 0 12px var(--glow-blue), 0 0 24px rgba(0, 144, 232, 0.15); }
+.footer { background: var(--bg-footer); color: rgba(255,255,255,0.6); padding: 60px 0 30px; font-size: 14px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer h6 { color: var(--color-white); margin-bottom: 16px; }
+.footer a { color: var(--color-blue-bright); transition: color 0.2s; }
+.footer a:hover { color: var(--color-white); }
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 8px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; font-size: 13px; color: rgba(255,255,255,0.4); }
+.footer-bottom a { color: var(--color-blue-bright); }
+@media (max-width: 992px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* ===== SCROLL REVEAL ===== */
+/* Progressive enhancement: reveal elements are only hidden once JS has confirmed
+   it is running by adding .js-ready to <html>. Without JS, content stays visible. */
+.js-ready .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js-ready .reveal.visible { opacity: 1; transform: translateY(0); }
+.js-ready .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js-ready .reveal-left.visible { opacity: 1; transform: translateX(0); }
+.js-ready .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js-ready .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ===== VIDEO PLACEHOLDER ===== */
+.video-placeholder {
+  width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--bg-dark), var(--color-blue-dark));
+  display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.4);
+  font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+}
+/* ===== FOCUS STATES (accessibility) ===== */
+.btn:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 3px; }
+.faq-header:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2px; border-radius: var(--radius-sm); }
+a:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2px; border-radius: 2px; }
+
+/* ===== RESPONSIVE — INTERMEDIATE (1200px) ===== */
+@media (max-width: 1200px) {
+  h2 { font-size: 42px; }
+  h3 { font-size: 30px; }
+  .section { padding: 60px 0; }
+  .container { padding: 0 28px; }
+  .two-col { gap: 32px; }
+  .pillar-grid { gap: 20px; }
+  .pillar-card { padding: 28px 24px; }
+  .pillar-card h3 { font-size: 20px; }
+  .dark-card-grid { gap: 16px; }
+  .dark-card { padding: 24px; }
+  .detail-cards { gap: 24px; }
+  .process-grid { gap: 20px; }
+  .process-step p { font-size: 14px; }
+}
+
+/* ===== RESPONSIVE — TABLET/MOBILE (992px) — consolidated tightening ===== */
+@media (max-width: 992px) {
+  .section { padding: 50px 0; }
+  .container { padding: 0 20px; }
+  .two-col { gap: 36px; }
+}
+
+/* ===== MOBILE NAV ===== */
+/* Hamburger button — hidden on desktop, shown on mobile */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--color-heading);
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-toggle svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+/* Mobile nav panel — hidden by default, slides down when open */
+.mobile-nav {
+  display: none;
+  background: var(--bg-dark);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.mobile-nav.open { max-height: 800px; }
+.mobile-nav-list { list-style: none; padding: 0; margin: 0; }
+.mobile-nav-list li { border-bottom: 1px solid rgba(255,255,255,0.06); }
+.mobile-nav-list a,
+.mobile-nav-list button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 24px;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-white);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.mobile-nav-list a:active,
+.mobile-nav-list button:active { background: rgba(0, 144, 232, 0.12); }
+.mobile-nav-chevron {
+  font-size: 18px;
+  color: rgba(255,255,255,0.6);
+  transition: transform 0.25s ease;
+  line-height: 1;
+}
+.mobile-nav-parent.open .mobile-nav-chevron { transform: rotate(90deg); color: var(--color-blue-bright); }
+.mobile-nav-submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  background: rgba(0,0,0,0.25);
+  transition: max-height 0.3s ease;
+}
+.mobile-nav-parent.open .mobile-nav-submenu { max-height: 400px; }
+.mobile-nav-submenu li { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.mobile-nav-submenu li:last-child { border-bottom: none; }
+.mobile-nav-submenu a {
+  padding: 14px 24px 14px 44px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.75);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.mobile-nav-cta {
+  padding: 20px 24px;
+  background: rgba(0,0,0,0.2);
+}
+.mobile-nav-cta .btn--primary {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+/* Swap desktop/mobile nav at 992px */
+@media (max-width: 992px) {
+  .nav { display: none; }
+  .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .mobile-nav { display: block; }
+}
+
+/* ===== ACCESSIBILITY — reduced motion fallback ===== */
+@media (prefers-reduced-motion: reduce) {
+  .js-ready .reveal, .js-ready .reveal-left, .js-ready .reveal-right { opacity: 1; transform: none; transition: none; }
+  .pillar-card, .dark-card, .detail-card, .img-rounded { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="container">
+    <img src="https://www.syandus.com/hs-fs/hubfs/Syandus/Syandus%20Logo/Archive/Logo_215px-w.png?width=219&height=42&name=Logo_215px-w.png" alt="Syandus" class="logo">
+    <nav class="nav">
+      <a href="/">HOME</a>
+      <a href="/alivesim-platform">PLATFORM</a>
+      <a href="#">SOLUTIONS</a>
+      <a href="/blog">BLOG</a>
+      <a href="/about">ABOUT</a>
+      <a href="/contact-us" class="btn btn--nav">CONTACT US</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <ul class="mobile-nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/alivesim-platform">Platform</a></li>
+      <li class="mobile-nav-parent">
+        <button type="button" aria-expanded="false">
+          <span>Solutions</span>
+          <span class="mobile-nav-chevron">▸</span>
+        </button>
+        <ul class="mobile-nav-submenu">
+          <li><a href="/learning-and-development">Learning &amp; Development</a></li>
+          <li><a href="/sales-training-and-coaching">Sales Training</a></li>
+          <li><a href="/medical-education">Medical Education</a></li>
+          <li><a href="/medical-communications">Medical Communications</a></li>
+        </ul>
+      </li>
+      <li><a href="/blog">Blog</a></li>
+      <li class="mobile-nav-parent">
+        <button type="button" aria-expanded="false">
+          <span>About</span>
+          <span class="mobile-nav-chevron">▸</span>
+        </button>
+        <ul class="mobile-nav-submenu">
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/news">News</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="/contact-us" class="btn btn--primary">Contact Us</a>
+    </div>
+  </nav>
+</header>
+
+
+<!-- =============================================
+     SECTION 1: HERO
+     ============================================= -->
+<section class="hero" style="background: url('https://www.syandus.com/hs-fs/hubfs/Syandus/Platform/PlatformHeader.webp?width=1200&name=PlatformHeader.webp') center center / cover no-repeat;">
+  <div class="hero-content">
+    <h1>Rapidly Build Immersive Scenarios with AliveSim</h1>
+    <p class="hero-tagline">An AI enhanced platform to bring learning to life</p>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 2: PILLAR INTRO (Light)
+     ============================================= -->
+<section class="section section--light">
+  <div class="container">
+    <h2 class="text-center reveal" style="margin-bottom: 8px;">Multi-Avatar Guided Learning — Only from AliveSim</h2>
+    <div class="pillar-grid reveal">
+      <div class="pillar-card">
+        <h3>Multiple Avatars</h3>
+        <p>Transform challenging situations into interactive scenarios where avatars engage in natural conversations.</p>
+      </div>
+      <div class="pillar-card">
+        <h3>Guided Learning</h3>
+        <p>Build confidence through expert mentoring at every decision point and change behaviors.</p>
+      </div>
+      <div class="pillar-card">
+        <h3>Insightful Analytics</h3>
+        <p>Learn which situations required the most mentoring to recognize optimal decision paths, and what specific mentoring was needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 3: TRANSFORM HOW PEOPLE LEARN (White)
+     ============================================= -->
+<section class="section">
+  <div class="container">
+    <h2 class="text-center reveal" style="margin-bottom: 60px;">Transform How People Learn Through Conversations</h2>
+
+    <!-- 3a: Why Multiple Avatars? (text left, image right) -->
+    <div class="two-col" style="margin-bottom: 80px;">
+      <div class="reveal-left">
+        <h3>Why Multiple Avatars?</h3>
+        <p>With one avatar, you get a monologue. They explain, describe, tell. But real situations unfold through conversations. When two or more avatars interact naturally, everything changes.</p>
+        <p>Now your learners experience:</p>
+        <ul class="content-list">
+          <li>How situations really unfold in your world</li>
+          <li>The impact of their decisions playing out in rich dialogue</li>
+          <li>Skilled people handling pivotal situations</li>
+          <li>Different stakeholders' perspectives colliding and aligning</li>
+        </ul>
+      </div>
+      <div class="reveal-right">
+        <img src="https://www.syandus.com/hs-fs/hubfs/Syandus/Platform/FlexiblePlatform.webp?width=960&name=FlexiblePlatform.webp" alt="AliveSim scenes with multiple characters" class="img-rounded">
+      </div>
+    </div>
+
+    <!-- 3b: Learning with a Virtual Colleague (text right, video left) -->
+    <div class="two-col two-col--reverse" style="margin-bottom: 80px;">
+      <div class="reveal-left">
+        <h3>Learning with a Virtual Colleague</h3>
+        <p>Imagine working with a colleague through a challenging situation. That's how AliveSim engages learners. The virtual colleague can:</p>
+        <ul class="content-list">
+          <li>Make mistakes that need guidance: <em>"Oh wow, what do we do now?"</em></li>
+          <li>Have revelations: <em>"I hadn't considered that perspective..."</em></li>
+          <li>Voice uncertainty: <em>"I don't think this is the right time..."</em></li>
+        </ul>
+        <p>Through this unique partnership, their colleague drives real situations while learners make the strategic decisions. Each needs the other to move forward in the simulation – creating a natural dynamic that elevates thinking from tactical to strategic.</p>
+      </div>
+      <div class="reveal-right">
+        <div class="video-placeholder">Video — Vimeo embed TBD</div>
+      </div>
+    </div>
+
+    <!-- 3c: Behind the Innovation (text left, image right) -->
+    <div class="two-col">
+      <div class="reveal-left">
+        <h3>Behind the Innovation</h3>
+        <p>Conversation engines that drive fluid multi-character dialogue. Decision engines that surface expert mentoring at pivotal moments. 3D game technology that creates responsive immersive environments. AI that gives avatars voice and accelerates content development. Cognitive science woven into every interaction. Analytics that track whether learners actually apply what they've learned. Each was hard to get right. Getting them to work together under one hood — that's what powers AliveSim.</p>
+        <p>This deep engagement shows – 92% of participants progress to additional scenarios.</p>
+      </div>
+      <div class="reveal-right">
+        <img src="https://www.syandus.com/hs-fs/hubfs/AliveSim%20-%20How%20it%20works%20image-2.png?width=2000&height=1298&name=AliveSim%20-%20How%20it%20works%20image-2.png" alt="AliveSim - How it works" class="img-rounded">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 4: THE POWER OF GUIDED LEARNING (Light)
+     ============================================= -->
+<section class="section section--light" style="padding-top: 120px;">
+  <div class="container">
+    <h2 class="text-center reveal" style="margin-bottom: 60px;">The Power of Guided Learning</h2>
+
+    <!-- 4a: What Would Your Best Coach Do? (text left, image right) -->
+    <div class="two-col" style="margin-bottom: 80px;">
+      <div class="reveal-left">
+        <h3>What Would Your Best Coach Do?</h3>
+        <p>Imagine your best coach or mentor. They know exactly where you struggle. They create safe situations for you to navigate. They observe decisions and provide guidance until optimal approaches become clear.</p>
+        <p>This proven approach transforms performance – but you can't clone your best coaches. That's why we built AliveSim.</p>
+      </div>
+      <div class="reveal-right">
+        <img src="https://www.syandus.com/hubfs/image%20(22).png" alt="Knowledge + Apply + Guidance" class="img-rounded">
+      </div>
+    </div>
+
+    <!-- 4b: Process Strip (4 steps) -->
+    <div class="reveal" style="margin-bottom: 80px;">
+      <h2 class="text-center" style="margin-bottom: 8px;">How to Scale this Proven Approach?</h2>
+      <p class="text-center" style="max-width: 700px; margin: 0 auto 8px;">AliveSim emulates this guided learning approach at scale:</p>
+      <div class="process-grid process-grid-with-connectors">
+        <div class="process-step">
+          <div class="process-number">1</div>
+          <h5>Situations</h5>
+          <p>Built around your real performance gaps</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">2</div>
+          <h5>Decisions</h5>
+          <p>Common approaches in your organization</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">3</div>
+          <h5>Mentoring</h5>
+          <p>Expert guidance to recognize optimal options</p>
+        </div>
+        <div class="process-step">
+          <div class="process-number">4</div>
+          <h5>Measure</h5>
+          <p>Track decision patterns and mentoring needs across teams</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4c: Why Immersive Guidance Matters (text left, image right) -->
+    <div class="two-col" style="margin-bottom: 80px;">
+      <div class="reveal-left">
+        <h3>Why Immersive Guidance Matters</h3>
+        <p>Think about what makes great mentors effective – they guide decisions in the moment: <em>"Have you thought about how that might affect..."</em></p>
+        <p>That's exactly how AliveSim works.</p>
+        <p>Every decision becomes a mentoring moment. Some learners recognize optimal approaches quickly, others need more guidance – but everyone experiences an optimal path.</p>
+        <p>This builds both competence and confidence to change real-world behaviors.</p>
+      </div>
+      <div class="reveal-right">
+        <img src="https://www.syandus.com/hs-fs/hubfs/Syandus/Learning%20and%20Development/VirtualRolePlayWorks.png?width=960&name=VirtualRolePlayWorks.png" alt="AliveSim running on phone" class="img-rounded">
+      </div>
+    </div>
+
+    <!-- 4d: Why It Works (text right, video left) -->
+    <div class="two-col two-col--reverse">
+      <div class="reveal-left">
+        <h3>Why It Works</h3>
+        <p>Great performers see patterns others miss. That's why every AliveSim decision reveals the thinking of your top performers, brought to life through game engine technology that makes the experience feel real.</p>
+        <p>This combination of realism and expert mentoring isn't random - it's based on <a href="/blog/cognitive-science-structured-practice-part-1-foundation">decades of research into how people develop the skills to apply knowledge effectively in real situations</a>.</p>
+        <p>The result? 2.5x improved decision-making performance.</p>
+      </div>
+      <div class="reveal-right">
+        <div class="video-placeholder">Video — Vimeo embed TBD</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 4-CTA: READY TO COMPLETE (mid-page CTA)
+     Blueprint note: this CTA appears on the live site between sections 4 and 5
+     ============================================= -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h2>Ready to Complete Your Learning Journeys?</h2>
+      <p>Join organizations achieving measurable results at scale</p>
+      <a href="/contact-us" class="btn btn--primary">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 5: BUILT FOR ENTERPRISE SCALE (Dark)
+     ============================================= -->
+<section class="section section--dark" style="padding: 80px 0;">
+  <div class="container">
+    <h2 class="text-center reveal" style="color: var(--color-white); margin-bottom: 48px;">Built for Enterprise Scale</h2>
+
+    <!-- Top row: 3 cards -->
+    <div class="dark-card-grid reveal">
+      <div class="dark-card">
+        <h5>Security</h5>
+        <p>AliveSim meets enterprise security requirements with robust data protection and SOC2 certification (in progress). All content and analytics are securely managed within your controlled environment.</p>
+      </div>
+      <div class="dark-card">
+        <h5>AI Enhanced Development</h5>
+        <p>Use AI to accelerate content creation, while maintaining control. All AI-generated content is locked down before publishing - ensuring consistent, reliable experiences for every learner. No AI surprises.</p>
+      </div>
+      <div class="dark-card">
+        <h5>Universal Access</h5>
+        <p>Deploy anywhere, anytime with our cloud-based platform. AliveSim works across all modern browsers and devices, requiring only a standard internet connection. No downloads or special software needed.</p>
+      </div>
+    </div>
+
+    <!-- Image band -->
+    <div class="image-band reveal">
+      <div class="image-placeholder">Product screenshot — TBD</div>
+    </div>
+
+    <!-- Bottom row: 3 cards -->
+    <div class="dark-card-grid reveal">
+      <div class="dark-card">
+        <h5>Flexible Delivery</h5>
+        <p>Integrate with your existing systems through multiple delivery options. From simple web links to LMS integration via SCORM, AliveSim fits your infrastructure requirements.</p>
+      </div>
+      <div class="dark-card">
+        <h5>Enterprise Support</h5>
+        <p>Comprehensive SLA ensures reliability and responsiveness. Our dedicated enterprise support team provides personalized assistance throughout your journey, from implementation to optimization.</p>
+      </div>
+      <div class="dark-card">
+        <h5>Insightful Analytics</h5>
+        <p>Track performance improvements with detailed analytics on decision-making patterns. Understand exactly where teams need support and measure the impact of your learning initiatives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 6: PROVEN INNOVATION (Light)
+     Matched exactly to syandus-proven-innovation-prototype.html
+     ============================================= -->
+<section class="proven-section">
+  <div class="container">
+
+    <div class="text-center reveal">
+      <h2 style="margin-bottom: 16px;">Proven Innovation, Experience, and Results</h2>
+      <p style="max-width: 700px; margin: 0 auto 48px; font-size: 18px;">We don't just provide technology - we've spent years building successful programs that deliver results for our customers:</p>
+    </div>
+
+    <div class="stats-row reveal">
+      <div class="stat">
+        <div class="stat-number" data-target="500" data-suffix="+">0</div>
+        <div class="stat-label">Custom scenarios built<br>for customers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-target="2" data-suffix="M+">0</div>
+        <div class="stat-label">Expert guidance<br>interactions delivered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-target="8" data-suffix="">0</div>
+        <div class="stat-label">National Science Foundation<br>SBIR Awards</div>
+      </div>
+    </div>
+
+    <p class="award-line reveal">Received <strong>best in class award</strong> for learning outcomes</p>
+
+    <div class="detail-cards reveal">
+      <div class="detail-card">
+        <h5>Global Reach</h5>
+        <p>Our AI-powered voice and translation capabilities supported deployment of programs across multiple languages.</p>
+      </div>
+      <div class="detail-card">
+        <h5>Forward-Looking Technology</h5>
+        <p>AliveSim Studio streamlines content creation. Bring avatars to life with emotional conversation, decision points, and Generative AI accelerated development.</p>
+      </div>
+    </div>
+
+    <p class="closing-statement reveal">This isn't just a platform - it's expertise and innovation proven through real customer success.</p>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 7: COMPARISON TABLE (Dark)
+     Matched exactly to platform-components_2 ComparisonTable
+     ============================================= -->
+<section class="comparison-section">
+  <div class="container">
+    <h2 class="text-center reveal">Choose the Right Technology to Complete the Learning Journey</h2>
+    <p class="text-center reveal" style="max-width: 800px; margin: 0 auto 40px;">Organizations need specialized technology to complete the learning journey. With knowledge acquisition as Stage 1, learners then need to learn how to apply it—what to do in realistic situations. That's Stage 2. Sometimes, they also need to practice how to say it. That's Stage 3.</p>
+
+    <div class="comparison-table-wrap reveal">
+      <table class="comparison-table">
+        <colgroup>
+          <col class="col-criteria">
+          <col class="col-alivesim">
+          <col class="col-freeform">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Selection Criteria</th>
+            <th class="highlight"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADnBAADASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAcIBgkBBAUDAv/EAF4QAAEDAgIDCgUNDAcFBwUAAAEAAgMEBQYRBxIhCAkxNkFRYXGysxMicnWBFBUWMjU3QnN0kaGx0RcYI1JUYoKSk5XB0iQzU1eUosIlQ1aDoyZVY4TD0+E4REW08P/EABsBAQADAQEBAQAAAAAAAAAAAAAEBgcFAwIB/8QANBEBAAEDAAYJAwQDAQEBAAAAAAECAwQFBhExNHESITNBYXKRscFRodETIjKBFVPhI0Lx/9oADAMBAAIRAxEAPwCmSIiAiIgIiICIiAiIgIiICIiAiIgIiICIiCVNzvoeqtMN6ulspb7DaHW+mbOXyU5lD9Z2rlkHDJTX947dv7xKH91u/wDcXR3tfj1izzZF3qvOgpN947dv7xKH91u/9xRbuiNANboeslrudVianu7bhUugDI6QxFmq3WzzLjmtlaqdvk/ETCfnOXukFGEREBERAU9bmXc8XXSo71+vM01pwrFIWGdjR4ascD4zYs9gA4C8ggHYASDlFWjLC1RjXSDYsKUzzG+51scDpAMzGwnN78vzWhx9C2wYbs9vw/YaGyWmmZS0FDA2CnhYMg1jRkOs855TtQYpgjQ7o1wZSshsWD7WyRgGdTUQCeocecyPzd6AQOhe/esGYRvVKaa74XstfCRkWT0Mbx6MxsXvogqRp93JFoq7bVXzRfE6huETS91nklLoajlIic45sfzAktOweKqS1dPPTVUtNUQyQzwvMckcjS1zHA5FpB2gg7MluRVDN8F0f01ixvbsbWyBsUF+Y+Ota0ZAVUYHj9b2EdZY48JQVaREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQcjNdikgmqZ44IGF8j3AMa0Zkk8i+GSkTRDaGPM13laCWHwUWfIcs3H5iB6Sp2j8SrMv02o79/JEzsunEsVXZ7t3N6WGcA0VIxk92/pNQdvgwfEb0fnH6Fl0NFRwN1KelgjaPgsjaB9AXYGQO3ahyPBsWmYuBYxaOjbpiPf1ZplaQyMqvpXKpn29Hk3bDlmucZZU0UQefhxgMePSOH0qL8Z4WqbDKJWuM1JIcmyZbWn8V3T9amYZcq610ooLlQTUdS3WimYWno5iOkHaoOk9D2cu3M00xFfdP5TtGaZvYtyIqmZo74/CvaBdm4U0lHWz00mx8UjmOHSDkV1lmtVM0zslo8TFUbYcIiL5foiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiC2O9r8esWebIu9V51Rje1+PWLPNkXeq86Aqnb5PxEwn5zl7pWxVTt8n4iYT85y90gowiIgIiIJr3EHgBulsM+Gy1tSr8Fn+N6ll/hmtlq1F6NMT1OC8f2PFdKwySWytjqDGDl4RgPjsz/ADm6zfStsGGL3bcR4foL9aKllTb66Bs9PK0+2a4ZjqPIRyEEIPUREQFWHfGzT/casmvl4f2QxeD59X1PPrej2v0KzyoPvgekGlxBjq34KtdQJabD7XurHNObTVSZZs6dRoA6C5w5EFX0REBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH6HCph0V6pwjHq8PhXa3Xn9mSh7apE0RXZjHT2iV4aZD4SLPldlk4fMAfQV3tXb9NrNjpd8TH9uJrDZqu4U9HumJ/pI6Ii0hmrngXCcq693r4bdbpqyc5RxNLj0nkA6Sdi+blymiiaqp2RD0t26rlcU0xtmUMY51fZbcdT2vhT8+Qz+leFntXYrqiSsrZqmQ5vlkc93WTmV1+RZFkXIuXaqo75mfWWuY9E27VNE90RHpDhEReD1EREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQWx3tfj1izzZF3qvOqMb2vx6xZ5si71XnQFU7fJ+ImE/OcvdK2Kqdvk/ETCfnOXukFGEREBERAU67mrdC3nRRJ6zXOGW74VmkL3UrXAS0rj7Z8JOzbwlhyBO3NpJJgpEG1PBGmvRdjCkjmtGM7U2V4zNLWTCmnaebUkyJy5xmOle9esfYHstKai64xsNFEBnrTXCJufUNbMnoC1HIgu1p83XNtjt1TYdFr5KmslBjkvUsRZHCOAmFjhm535zgAOEB3JSyomlqKiSoqJXyyyuL3yPcXOe4nMkk7SSeVfBEBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERByvtTTy08zJonuY9jg5rmnIgjgK+C5X1EzE7YfkxExslKuGcfUdTG2C8H1PMBl4UDNr+k5e1P0dSy6K522ZmvBX0r284maf4qvmzNchzhwEqyYus2Rao6NdMVeO6VcytWce9X0qJmnw3wnO64psdtic+auikeOBkTg9x6MhwenJRfi/FNXf5tQNMFIw5siDs8z+M7nP1LHCc0Jzy5VE0hpzIzaehP7afpHfzTNH6Ex8Krpx+6r6z3cn5REXEdgREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQWx3tfj1izzZF3qvOqMb2vx6xZ5si71XnQFU7fJ+ImE/OcvdK2Kqdvk/ETCfnOXukFGEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERARF37JaLpfLjHbrNbay5Vsv8AV09LC6WR3U1oJKDoIrC4D3JGlPELY6i8R0GGaV23+my685HOI488j0OLSpswruKsD0bWvxHie93eUHa2mbHSxHrGT3fM4IKHItm9l3NOhS1geDwTDVPHC+rqp5ifQ5+r8wWUUmiDRVStAh0b4TOXAZLTC8/O5pKDVAi2zv0V6MHt1X6OMHkcGRslN/IvEu2gbQ7c2ltTo8scYPD6mhNOfnjLckGrNFsFxhuOdGN1je+wVV4w9OfaCOf1TCOtsmbj+uFX7SfuTdJGE4Za6yNgxXb4wSTQtLaloHKYTtPUwvKCvaL7VEMtNO+CeJ8Usbix7HtLXNI2EEHgK+KAiIgIiICIiC2O9r8esWebIu9V51Rje1+PWLPNkXeq86Aqnb5PxEwn5zl7pWxVTt8n4iYT85y90gowiIgIiICIpE0C6MKvSzjWbDFFdoLXLFRSVhmmiMjSGuY3VyBG3x/oQR2itx94/iH/AI9tf+Bk/mT7x/EP/Htr/wADJ/MgqOinjT1ucLromwTDiatxPRXOKWujoxDDTOjcC5r3a2ZJ2eJ9KgdARF9Iw0yND3FrSRrEDMgc+SD5orY2/cW3i4UFPXUekK0zU1TE2aGRtFJk9jgC1w8bgIIK+/3j+If+PbX/AIGT+ZBUdFbj7x/EP/Htr/wMn8ygTTlo2umirHbsL3SqirCaaOpgqYmFjZo35jMA8GTmub+igwJERAREQEREBERAREQEVkNFW5OxJjrANqxYcTUVpZcozLFTTUr3vEesQ1xIIHjABw6CFlH3j+If+PbX/gZP5kFR0VuPvH8Q/wDHtr/wMn8yg/T3ovdomxXTYbqMQU14q5aQVMvgIXRiEOcQ1pzJ2nVJ6sudBG6IiAiIgIiI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" alt="AliveSim" class="alivesim-logo"> Guided Learning</th>
+            <th>Freeform Practice</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Best Use Cases</td>
+            <td class="highlight" data-label="AliveSim">Applying knowledge, decision-making, learning <strong>what to do</strong> (Stage 2)</td>
+            <td data-label="Freeform">Conversation practice, learning <strong>how to say it</strong> (Stage 3)</td>
+          </tr>
+          <tr>
+            <td>Engagement Approach</td>
+            <td class="highlight" data-label="AliveSim">Multiple interactive avatars, game engine responsiveness</td>
+            <td data-label="Freeform">Conversation with one AI avatar</td>
+          </tr>
+          <tr>
+            <td>Development Approach</td>
+            <td class="highlight" data-label="AliveSim">AI-enhanced content creation, locked before delivery for reliability</td>
+            <td data-label="Freeform">Standard conversation scenarios with basic company context options</td>
+          </tr>
+          <tr>
+            <td>Company-Specific Content</td>
+            <td class="highlight" data-label="AliveSim">Deep customization to address company-specific situations, without cost impact</td>
+            <td data-label="Freeform">Limited company context; significant cost to add more, if technically feasible</td>
+          </tr>
+          <tr>
+            <td>Learner Experience Consistency</td>
+            <td class="highlight" data-label="AliveSim">100% reliable content, same high-quality experience for all learners</td>
+            <td data-label="Freeform">Different conversation each time; 10-20% chance of inaccurate responses</td>
+          </tr>
+          <tr>
+            <td>Cost Model</td>
+            <td class="highlight" data-label="AliveSim">Lower costs, predictable volume-based pricing (no AI processing fees)</td>
+            <td data-label="Freeform">Higher costs, variable, driven by AI usage and processing fees</td>
+          </tr>
+          <tr>
+            <td>Performance Analytics</td>
+            <td class="highlight" data-label="AliveSim">Tracks decision-making mapped to learning objectives</td>
+            <td data-label="Freeform">Conversation style and interaction analysis</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 8: LIMITATIONS OF E-LEARNING (White)
+     ============================================= -->
+<section class="section">
+  <div class="container">
+    <div class="two-col">
+      <div class="reveal-left">
+        <h3>The Limitations of Traditional E-Learning Simulations</h3>
+        <p>E-learning platforms, like Articulate, Captivate, and iSpring excel at structured knowledge delivery. But their simulation capabilities face key limitations:</p>
+        <ul class="content-list">
+          <li>Limited learner engagement</li>
+          <li>Limited immersion</li>
+          <li>Minimal dynamic feedback</li>
+          <li>Limited decision analytics</li>
+          <li>Complex development</li>
+        </ul>
+        <p>That's why organizations complement e-learning tools with specialized platforms for applying and reinforcing knowledge. This proven combination drives measurable results.</p>
+      </div>
+      <div class="reveal-right">
+        <img src="https://www.syandus.com/hs-fs/hubfs/Syandus/AliveSim%20Platform/Learner.webp?width=726&name=Learner.webp" alt="Bored Learner" class="img-rounded">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 9: CTA (Dark)
+     ============================================= -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h2>Ready to talk? Further explore how AliveSim can innovate your learning initiatives.</h2>
+      <a href="/platform-landing-page" class="btn btn--primary">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 10: FAQ (Light)
+     Style: ScenarioAccordion from platform-components_2
+     Content TBD — placeholder structure
+     ============================================= -->
+<section class="section section--light">
+  <div class="container--slim">
+    <h2 class="text-center reveal" style="margin-bottom: 40px;">Frequently Asked Questions</h2>
+    <div class="faq-accordion reveal">
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <span class="faq-title">What makes AliveSim different from AI chatbot role-play tools?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <span class="faq-title">How long does it take to create an AliveSim scenario?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <span class="faq-title">Does AliveSim integrate with our existing LMS?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <span class="faq-title">What kind of analytics does AliveSim provide?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <span class="faq-title">Is AliveSim secure enough for enterprise deployment?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== ELECTRIC BLUE DIVIDER ===== -->
+<div class="footer-divider"></div>
+
+<!-- =============================================
+     SECTION 11: FOOTER
+     ============================================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h6>About Us</h6>
+        <p style="color: rgba(255,255,255,0.5);">Syandus' AliveSim platform lets you create immersive multi-avatar scenarios where learners apply knowledge with expert guidance at every decision point. Build in hours, not weeks. Track decision patterns. 2.5x proven results.</p>
+        <p style="margin-top: 12px;"><a href="/security-legal">Security &amp; Legal Hub</a></p>
+      </div>
+      <div>
+        <h6>Solutions</h6>
+        <ul>
+          <li><a href="/learning-and-development">Learning &amp; Development</a></li>
+          <li><a href="/sales-training-and-coaching">Sales Training and Coaching</a></li>
+          <li><a href="/medical-education">Medical Education</a></li>
+          <li><a href="/medical-communications">Medical Communications</a></li>
+        </ul>
+      </div>
+      <div>
+        <h6>Contact Us</h6>
+        <p style="color: rgba(255,255,255,0.5);">610.321.2500</p>
+        <p><a href="mailto:info@syandus.com">info@syandus.com</a></p>
+        <p style="margin-top: 8px; color: rgba(255,255,255,0.5);">600 Eagleview Blvd., Suite 300<br>Exton, PA 19341</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Copyright 2026 Syandus. All rights reserved. <a href="/legal/privacy-policy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// Mark <html> as js-ready so reveal CSS activates. Without this, content stays
+// visible (progressive enhancement — if JS fails, page still renders correctly).
+document.documentElement.classList.add('js-ready');
+
+// Scroll reveal — staggered, once-only, cleans up inline styles after animation
+(function() {
+  var els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  if (!els.length) return;
+
+  // Safety net: if IntersectionObserver isn't available or doesn't fire,
+  // force everything visible after 2s so mobile users don't see blank sections.
+  var safetyTimer = setTimeout(function() {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }, 2000);
+
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el) { el.classList.add('visible'); });
+    clearTimeout(safetyTimer);
+    return;
+  }
+
+  // Group reveals by their parent container so siblings stagger together
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      // Find siblings that are also reveals and share the same parent
+      var parent = el.parentElement;
+      var siblingReveals = Array.prototype.filter.call(
+        parent.children,
+        function(c) { return c.classList && (c.classList.contains('reveal') || c.classList.contains('reveal-left') || c.classList.contains('reveal-right')); }
+      );
+      var idx = siblingReveals.indexOf(el);
+      var delay = (idx > 0) ? idx * 100 : 0; // 100ms stagger per sibling
+      setTimeout(function() {
+        el.classList.add('visible');
+        // Clean up: after transition completes, remove transition/transform inline overhead
+        setTimeout(function() {
+          el.style.transition = '';
+          el.style.transform = '';
+        }, 800);
+      }, delay);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.1 });
+  els.forEach(function(el) { observer.observe(el); });
+
+  // Once any reveal fires, cancel the safety timer
+  var firstVisible = new MutationObserver(function() {
+    if (document.querySelector('.reveal.visible, .reveal-left.visible, .reveal-right.visible')) {
+      clearTimeout(safetyTimer);
+      firstVisible.disconnect();
+    }
+  });
+  firstVisible.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+})();
+
+// Count-up animation (for Proven Innovation stats)
+(function() {
+  var stats = document.querySelectorAll('.stat-number');
+  var animated = false;
+  if (!stats.length) return;
+  function animateCount(el) {
+    var target = parseFloat(el.getAttribute('data-target'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var isDecimal = target % 1 !== 0;
+    var duration = 1800;
+    var start = performance.now();
+    function tick(now) {
+      var elapsed = now - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = eased * target;
+      if (isDecimal) {
+        el.textContent = current.toFixed(1) + suffix;
+      } else {
+        el.textContent = Math.round(current) + suffix;
+      }
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !animated) {
+        animated = true;
+        stats.forEach(animateCount);
+      }
+    }, { threshold: 0.3 });
+    observer.observe(stats[0].closest('.stats-row'));
+  }
+})();
+
+// Mobile nav — hamburger toggle + submenu accordion
+(function() {
+  var toggle = document.querySelector('.nav-toggle');
+  var mobileNav = document.querySelector('.mobile-nav');
+  if (!toggle || !mobileNav) return;
+
+  // Toggle the main nav panel
+  toggle.addEventListener('click', function() {
+    var isOpen = mobileNav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+
+  // Submenu toggles (Solutions, About)
+  var parentButtons = mobileNav.querySelectorAll('.mobile-nav-parent > button');
+  parentButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var parent = btn.parentElement;
+      var isOpen = parent.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+
+  // Close menu when any leaf link is tapped (so navigation feels clean)
+  var leafLinks = mobileNav.querySelectorAll('a');
+  leafLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      mobileNav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      // Also collapse any open submenus so state is fresh next time
+      mobileNav.querySelectorAll('.mobile-nav-parent.open').forEach(function(p) {
+        p.classList.remove('open');
+        var b = p.querySelector('button');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+})();
+
+// FAQ Accordion (ScenarioAccordion style)
+document.querySelectorAll('.faq-header').forEach(function(button) {
+  button.addEventListener('click', function() {
+    var item = button.parentElement;
+    var content = item.querySelector('.faq-answer');
+    var chevron = item.querySelector('.faq-chevron');
+    var isActive = item.classList.contains('faq-item--active');
+
+    // Close all items
+    document.querySelectorAll('.faq-item').forEach(function(i) {
+      i.classList.remove('faq-item--active');
+      i.querySelector('.faq-answer').style.display = 'none';
+      i.querySelector('.faq-chevron').textContent = '▸';
+    });
+
+    // Open clicked item if it wasn't already active
+    if (!isActive) {
+      item.classList.add('faq-item--active');
+      content.style.display = 'block';
+      chevron.textContent = '▾';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
