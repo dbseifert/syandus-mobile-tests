@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syandus | AliveSim - Complete the Learning Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   SYANDUS.COM — CANONICAL CSS COMPONENT LIBRARY
+   Version: 1.3 — April 20, 2026
+   
+   Single source of truth for all page prototypes and Claude Code handoff.
+   Every page references this file. Page-specific overrides go inline.
+
+   ---------------------------------------------------------------------
+   COMPANION JAVASCRIPT BEHAVIOR NOTES (for any page using these styles)
+   ---------------------------------------------------------------------
+
+   FAQ ACCORDION (.faq-accordion) — scoped single-open behavior:
+     When a user clicks a .faq-header inside a .faq-accordion container, the
+     JS must close only the other .faq-item elements within THAT same
+     .faq-accordion (the closest ancestor), not every .faq-item on the page.
+     This supports pages with multiple accordion containers (e.g. Sales, which
+     has a Scenario accordion and a general FAQ accordion) where each accordion
+     tracks its own open item independently. On single-accordion pages the
+     behavior is identical to page-global.
+
+   IMAGE-BAND (.image-band) — hover animation specificity:
+     The wrapper carries both .image-band and .reveal classes. The .reveal
+     rule (".js-ready .reveal.visible { transform: translateY(0); }") has
+     higher specificity than a plain .image-band:hover and will override it.
+     The hover here uses ".js-ready .image-band.visible:hover" to match
+     specificity and add :hover to win the cascade after scroll reveal
+     completes.
+
+   REVEAL (.reveal, .reveal-left, .reveal-right) — progressive enhancement:
+     Reveal rules are scoped to .js-ready (added to <html> as the first JS
+     action). Without JS, content stays fully visible. The reveal JS also
+     runs a 2-second safety timer that forces all reveals visible if
+     IntersectionObserver fails (e.g. on some mobile browsers).
+   ---------------------------------------------------------------------
+
+   Changelog v1.2 → v1.3:
+   - Image-band hover promoted from Home page-specific to canonical. Wrapper
+     lifts and scales as a unit (scale 1.02, translateY -4px, deeper shadow).
+     Uses higher-specificity selector to beat reveal rule cascade.
+   - CTA card hover intensified — blue glow stronger and wider on mouseover,
+     border opacity increased. Idle state unchanged. Rewards user intent
+     without adding constant animation noise.
+   - DifferentiatorBand CSS (.diff-section, .diff-panel, .diff-category,
+     .diff-expand-*, @keyframes blue-border-pulse, etc.) REMOVED from
+     canonical. This component is Sales-only and its styling is now owned
+     entirely by the Sales page's inline overrides, where it can evolve
+     independently without polluting other pages or creating cascade conflicts.
+
+   Changelog v1.1 → v1.2:
+   - FAQ active indicator: changed from border-left (took layout space, caused
+     3px content shift + abrupt appearance) to inset box-shadow (no layout
+     impact, smooth 0.25s fade-in). Fixes visible content jump when opening
+     a FAQ item.
+
+   Changelog v1.0 → v1.1:
+   - Mobile nav CSS added (hamburger button, slide-down panel, submenu accordions,
+     992px nav swap).
+   - Reveal rules scoped to .js-ready for progressive enhancement (content stays
+     visible if JS fails). Reduced-motion rule updated to match.
+   - Two-col 1200px bug fixed (grid-template-columns override removed — was
+     breaking mobile stacking).
+   - FAQ: chevron changed to --color-blue-bright (always blue, signals
+     interactivity). Mobile override added at 992px: icon hidden, padding
+     tightened, answer uses full viewport width.
+   - Comparison table: mobile card-stack layout added at 992px. Each row becomes
+     a card with criteria as heading and AliveSim/Freeform as labeled sections.
+     Requires data-label="AliveSim" and data-label="Freeform" attributes on the
+     2nd and 3rd td of each tbody row in the HTML.
+   ===================================================================== */
+
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --font-heading: 'Inter Tight', sans-serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --color-heading: #222222;
+  --color-body: #666666;
+  --color-white: #ffffff;
+  --color-blue: #0070C0;
+  --color-blue-bright: #0090E8;
+  --color-blue-dark: #004A80;
+  --color-orange: #E56125;
+  --color-orange-hover: #C94F1A;
+  --glow-blue: rgba(0, 144, 232, 0.45);
+  --glow-blue-strong: rgba(0, 144, 232, 0.6);
+  --glow-orange: rgba(229, 97, 37, 0.3);
+  --bg-white: #ffffff;
+  --bg-light: #F4F6F8;
+  --bg-dark: #0A1A2E;
+  --bg-dark-card: #0F2540;
+  --bg-footer: #071525;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
+  --shadow-btn: 0 4px 20px rgba(229, 97, 37, 0.35);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --width-standard: 1440px;
+  --width-slim: 880px;
+}
+
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 18px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-body); color: var(--color-body); background: var(--bg-white); line-height: 1.5; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); color: var(--color-heading); line-height: 1.1; margin-bottom: 0.5rem; }
+h1 { font-size: 80px; font-weight: 700; }
+h2 { font-size: 50px; font-weight: 700; }
+h3 { font-size: 37px; font-weight: 700; }
+h4 { font-size: 28px; font-weight: 300; }
+h5 { font-size: 21px; font-weight: 700; }
+h6 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+p { margin-bottom: 1rem; }
+a { color: var(--color-blue); text-decoration: none; }
+a:hover { color: var(--color-blue-dark); }
+strong { font-weight: 700; color: var(--color-heading); }
+
+
+/* ===== LAYOUT ===== */
+.container { max-width: var(--width-standard); margin: 0 auto; padding: 0 40px; }
+.container--slim { max-width: var(--width-slim); margin: 0 auto; padding: 0 40px; }
+.section { padding: 100px 0; }
+.section--light { background: var(--bg-light); }
+.section--dark { background: var(--bg-dark); }
+.section--dark h2, .section--dark h3, .section--dark h5 { color: var(--color-white); }
+.section--dark p { color: rgba(255,255,255,0.75); }
+.section--dark strong { color: var(--color-white); }
+.text-center { text-align: center; }
+
+
+/* ===== HEADER ===== */
+.header { position: sticky; top: 0; z-index: 100; background: var(--bg-white); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 16px 0; }
+.header .container { display: flex; align-items: center; justify-content: space-between; }
+.logo { height: 36px; }
+.nav { display: flex; align-items: center; gap: 32px; }
+.nav a { font-family: var(--font-body); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-heading); transition: color 0.2s; }
+.nav a:hover { color: var(--color-blue); }
+
+
+/* ===== BUTTONS ===== */
+.btn { display: inline-block; font-family: var(--font-body); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: none; cursor: pointer; transition: all 0.25s ease; text-decoration: none; }
+.btn--primary { background: var(--color-orange); color: var(--color-white); padding: 18px 36px; border-radius: var(--radius-pill); box-shadow: var(--shadow-btn); }
+.btn--primary:hover { background: var(--color-orange-hover); color: var(--color-white); transform: scale(1.04); box-shadow: 0 6px 30px rgba(229, 97, 37, 0.5), 0 0 15px var(--glow-orange); }
+.btn--nav { background: transparent; color: var(--color-heading); border: 1.5px solid var(--color-heading); padding: 10px 20px; font-size: 12px; border-radius: var(--radius-pill); }
+.btn--nav:hover { background: var(--color-heading); color: var(--color-white); }
+
+
+/* ===== FOCUS STATES (accessibility) ===== */
+.btn:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 3px; }
+.faq-header:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2px; border-radius: var(--radius-sm); }
+a:focus-visible { outline: 2px solid var(--color-blue-bright); outline-offset: 2px; }
+
+
+/* ===== HERO ===== */
+.hero { position: relative; min-height: 580px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+.hero::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
+.hero-content { position: relative; z-index: 2; padding: 80px 40px; max-width: 1000px; }
+.hero h1 { color: var(--color-white); margin-bottom: 56px; font-size: 80px; }
+.hero .hero-tagline { color: var(--color-white); font-size: 30px; font-weight: 400; line-height: 1.3; font-family: var(--font-heading); }
+
+
+/* ===== TWO COLUMN LAYOUT ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.two-col--reverse { direction: rtl; }
+.two-col--reverse > * { direction: ltr; }
+
+
+/* ===== IMAGES ===== */
+.img-rounded {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  width: 100%; height: auto; display: block;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.img-rounded:hover {
+  transform: scale(1.02) translateY(-4px);
+  box-shadow: 0 8px 35px rgba(0,0,0,0.15);
+}
+
+
+/* ===== CONTENT LISTS (bulleted) ===== */
+.content-list { list-style: none; padding: 0; margin: 0 0 1rem 0; }
+.content-list li { position: relative; padding-left: 20px; margin-bottom: 10px; line-height: 1.6; }
+.content-list li::before { content: '•'; position: absolute; left: 0; color: var(--color-blue-bright); font-weight: 700; }
+
+
+/* ===== INTROBLOCK DASHES ===== */
+.introblock-dashes { text-align: center; }
+.introblock-dashes__item { font-size: 20px; color: var(--color-body); line-height: 1.5; max-width: 640px; margin: 0 auto; }
+.introblock-dashes__separator { width: 40px; height: 3px; background: var(--color-blue-bright); border-radius: 2px; margin: 28px auto; box-shadow: 0 0 8px rgba(0, 144, 232, 0.3); }
+
+
+/* ===== PILLAR CARDS (3-col or 2-col grid of white cards) ===== 
+   Usage: .pillar-grid for 3-col, .pillar-grid.pillar-grid--2col for 2-col
+*/
+.pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+.pillar-grid--2col { grid-template-columns: repeat(2, 1fr); max-width: 960px; margin-left: auto; margin-right: auto; }
+.pillar-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.pillar-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}
+.pillar-card h3 { font-size: 24px; margin-bottom: 12px; }
+.pillar-card p { font-size: 16px; color: var(--color-body); margin-bottom: 0; }
+.pillar-card::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--color-blue-bright);
+  border-radius: 2px;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 8px rgba(0, 144, 232, 0.3);
+  transition: width 0.3s ease, box-shadow 0.3s ease;
+}
+.pillar-card:hover::before {
+  width: 60px;
+  box-shadow: 0 0 14px rgba(0, 144, 232, 0.5), 0 0 28px rgba(0, 144, 232, 0.2);
+}
+/* Left-aligned variant (no center, no ::before) */
+.pillar-card--left { text-align: left; }
+.pillar-card--left::before { margin: 0 0 20px 0; }
+
+
+/* ===== DARK CARD GRID (dark section feature cards) =====
+   Usage: .dark-card-grid for 3-col, .dark-card-grid--2col for 2-col
+*/
+.dark-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.dark-card-grid--2col { grid-template-columns: repeat(2, 1fr); max-width: 960px; margin-left: auto; margin-right: auto; }
+.dark-card {
+  background: var(--bg-dark-card);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  border: 1px solid rgba(0, 144, 232, 0.15);
+  box-shadow: 0 0 20px rgba(0, 144, 232, 0.08);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.dark-card:hover {
+  box-shadow: 0 0 35px var(--glow-blue), 0 0 70px rgba(0, 144, 232, 0.12);
+  border-color: rgba(0, 144, 232, 0.4);
+  transform: translateY(-4px);
+}
+.dark-card h3 { color: var(--color-white); font-size: 24px; margin-bottom: 12px; }
+.dark-card h5 { color: var(--color-white); margin-bottom: 12px; font-size: 20px; }
+.dark-card p { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 0; line-height: 1.5; }
+.dark-card a { color: var(--color-blue-bright); }
+
+
+/* ===== DETAIL CARDS (light bg, used in Proven Innovation etc.) ===== */
+.detail-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 960px; margin: 0 auto 40px; }
+.detail-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+.detail-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}
+.detail-card::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--color-blue-bright);
+  border-radius: 2px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 8px rgba(0, 144, 232, 0.3);
+  transition: width 0.3s ease, box-shadow 0.3s ease;
+}
+.detail-card:hover::before {
+  width: 60px;
+  box-shadow: 0 0 14px rgba(0, 144, 232, 0.5), 0 0 28px rgba(0, 144, 232, 0.2);
+}
+.detail-card h5 { margin-bottom: 12px; }
+.detail-card p { font-size: 16px; color: var(--color-body); margin-bottom: 0; }
+
+
+/* ===== CASE CARDS (white cards with accent bar, like detail cards but no ::before) ===== */
+.case-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 960px; margin: 0 auto; }
+.case-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+.case-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}
+.case-card__accent {
+  width: 40px;
+  height: 3px;
+  background: var(--color-blue-bright);
+  border-radius: 2px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 8px rgba(0, 144, 232, 0.3);
+  transition: width 0.3s ease, box-shadow 0.3s ease;
+}
+.case-card:hover .case-card__accent {
+  width: 60px;
+  box-shadow: 0 0 14px rgba(0, 144, 232, 0.5), 0 0 28px rgba(0, 144, 232, 0.2);
+}
+.case-card h5 { margin-bottom: 12px; }
+.case-card p { font-size: 16px; color: var(--color-body); margin-bottom: 0; line-height: 1.6; }
+
+
+/* ===== PROCESS STEPS (numbered 1-2-3-4 strip with connectors) =====
+   Usage: .process-grid for 4-col, .process-grid--3col for 3-col
+*/
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+}
+.process-grid--3col { grid-template-columns: repeat(3, 1fr); }
+.process-grid-with-connectors { position: relative; }
+.process-grid-with-connectors::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(12.5% + 28px);
+  right: calc(12.5% + 28px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-blue-bright), rgba(0, 144, 232, 0.2), var(--color-blue-bright), rgba(0, 144, 232, 0.2), var(--color-blue-bright));
+  z-index: 0;
+}
+.process-grid--3col.process-grid-with-connectors::before {
+  left: calc(16.67% + 28px);
+  right: calc(16.67% + 28px);
+}
+.process-step {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 0 8px;
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+.process-step:hover { transform: translateY(-6px); }
+.process-number {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--color-blue); color: var(--color-white);
+  font-family: var(--font-heading); font-size: 24px; font-weight: 800;
+  margin-bottom: 16px;
+  box-shadow: 0 0 15px var(--glow-blue), 0 0 30px rgba(0, 144, 232, 0.15);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.process-step:hover .process-number {
+  box-shadow: 0 0 20px var(--glow-blue-strong), 0 0 40px rgba(0, 144, 232, 0.2);
+  transform: scale(1.1);
+}
+.process-step h5 { text-transform: uppercase; letter-spacing: 1px; font-size: 16px; margin-bottom: 10px; color: var(--color-heading); }
+.process-step p { font-size: 15px; color: var(--color-body); margin-bottom: 0; line-height: 1.5; }
+/* Expandable process step content (Sales page) */
+.process-teaser { font-size: 15px; color: var(--color-body); margin-bottom: 8px; line-height: 1.5; }
+.process-expand-trigger { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--color-blue-bright); padding: 4px 0; transition: color 0.2s ease; }
+.process-expand-trigger:hover { color: var(--color-blue); }
+.process-expand-chevron { font-size: 11px; transition: transform 0.3s ease; display: inline-block; }
+.process-expand-trigger.open .process-expand-chevron { transform: rotate(180deg); }
+.process-expand-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; opacity: 0; }
+.process-expand-content.open { max-height: 300px; opacity: 1; }
+.process-expand-inner { padding-top: 12px; text-align: left; border-left: 3px solid var(--color-blue-bright); padding-left: 16px; margin-top: 4px; }
+.process-expand-inner p { font-size: 15px; color: var(--color-body); margin-bottom: 0; line-height: 1.6; }
+
+
+/* ===== FEATURE LIST (icon + text rows, used on Home and L&D) ===== */
+.feature-list { list-style: none; padding: 0; }
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+  transition: transform 0.3s ease;
+}
+.feature-list li:hover { transform: translateX(6px); }
+.feature-icon {
+  flex-shrink: 0; width: 52px; height: 52px;
+  background: var(--color-blue); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  animation: pulse-glow 3s ease-in-out infinite;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.feature-list li:hover .feature-icon {
+  box-shadow: 0 0 20px var(--glow-blue-strong), 0 0 40px rgba(0, 144, 232, 0.25);
+  transform: scale(1.1);
+}
+.feature-icon svg { width: 24px; height: 24px; fill: white; }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px var(--glow-blue), 0 0 30px rgba(0, 144, 232, 0.15); }
+  50% { box-shadow: 0 0 25px var(--glow-blue-strong), 0 0 50px rgba(0, 144, 232, 0.25); }
+}
+.feature-list li:nth-child(1) .feature-icon { animation-delay: 0s; }
+.feature-list li:nth-child(2) .feature-icon { animation-delay: 0.75s; }
+.feature-list li:nth-child(3) .feature-icon { animation-delay: 1.5s; }
+.feature-list li:nth-child(4) .feature-icon { animation-delay: 2.25s; }
+
+
+/* ===== ICON GRID (2-col icon+text, L&D Platform Benefits) ===== */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.icon-grid-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  transition: transform 0.3s ease;
+}
+.icon-grid-item:hover { transform: translateX(6px); }
+.icon-circle {
+  flex-shrink: 0; width: 52px; height: 52px;
+  background: var(--color-blue); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 15px var(--glow-blue), 0 0 30px rgba(0, 144, 232, 0.15);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.icon-grid-item:hover .icon-circle {
+  box-shadow: 0 0 20px var(--glow-blue-strong), 0 0 40px rgba(0, 144, 232, 0.25);
+  transform: scale(1.1);
+}
+.icon-circle svg { width: 24px; height: 24px; fill: white; }
+.icon-grid-item h5 { margin-bottom: 8px; }
+.icon-grid-item p { font-size: 16px; margin-bottom: 0; }
+
+
+/* ===== STATS ROW ===== */
+.stats-row { display: flex; gap: 80px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+.stat { text-align: center; }
+.stat-number {
+  font-family: var(--font-heading); font-size: 72px; font-weight: 800;
+  color: var(--color-heading); line-height: 1; margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(0, 144, 232, 0.12), 0 0 40px rgba(0, 144, 232, 0.06);
+}
+.stat-label { font-size: 16px; color: var(--color-body); font-weight: 400; }
+/* Light variant (for white/light sections) */
+.stats-row--light { display: flex; gap: 80px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+
+
+/* ===== IMAGE BAND ===== */
+.image-band { margin: 48px 0; overflow: hidden; border-radius: var(--radius-md); cursor: default; transition: transform 0.35s ease, box-shadow 0.35s ease; }
+.image-band img { width: 100%; height: 260px; object-fit: cover; display: block; box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+/* Image-band hover — lifts whole wrapper as a unit. Specificity note: the wrapper
+   carries .reveal, so the hover selector must match .js-ready .reveal.visible's
+   specificity and add :hover to win the cascade. */
+.js-ready .image-band.visible:hover,
+.image-band:hover {
+  transform: scale(1.02) translateY(-4px);
+  box-shadow: 0 8px 35px rgba(0,0,0,0.45);
+}
+.image-placeholder {
+  width: 100%; height: 260px; border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--bg-dark-card) 0%, rgba(0, 144, 232, 0.15) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.3); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+}
+
+
+/* ===== VIDEO PLACEHOLDER ===== */
+.video-placeholder {
+  width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--bg-dark), var(--color-blue-dark));
+  display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.4);
+  font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+}
+
+
+/* ===== PROSE CALLOUT (centered emphasis block with accent bar) ===== */
+.prose-callout { text-align: center; max-width: 800px; margin: 0 auto; }
+.prose-callout::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--color-blue-bright);
+  border-radius: 2px;
+  margin: 0 auto 28px;
+  box-shadow: 0 0 8px rgba(0, 144, 232, 0.3);
+}
+
+
+/* ===== TESTIMONIAL CARD ===== */
+.testimonial-card {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-left: 4px solid var(--color-blue-bright);
+  max-width: 800px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+.testimonial-card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+
+/* ===== COMPARISON TABLE (Platform page) ===== */
+.comparison-section { background: var(--bg-dark); padding: 80px 0; }
+.comparison-section h2 { color: var(--color-white); margin-bottom: 16px; }
+.comparison-section > .container > p { color: rgba(255,255,255,0.65); margin-bottom: 40px; }
+.comparison-table-wrap { overflow-x: auto; border-radius: var(--radius-md); max-width: 1000px; margin: 0 auto; }
+.comparison-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.comparison-table col.col-criteria { width: 26%; }
+.comparison-table col.col-alivesim { width: 37%; }
+.comparison-table col.col-freeform { width: 37%; }
+.comparison-table thead th {
+  background: var(--bg-dark-card); color: var(--color-white); font-weight: 700; font-size: 20px;
+  padding: 22px 24px; text-align: center; border-bottom: 3px solid rgba(0, 144, 232, 0.4);
+  vertical-align: bottom; line-height: 1.3;
+}
+.comparison-table thead th:first-child { border-radius: var(--radius-md) 0 0 0; }
+.comparison-table thead th:last-child { border-radius: 0 var(--radius-md) 0 0; }
+.comparison-table thead th.highlight { background: rgba(0, 144, 232, 0.12); border-bottom-color: var(--color-blue-bright); }
+.comparison-table .alivesim-logo { height: 22px; vertical-align: middle; margin-right: 6px; }
+.comparison-table tbody td {
+  padding: 20px 24px; color: rgba(255,255,255,0.75);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  vertical-align: top; font-size: 17px; line-height: 1.5;
+}
+.comparison-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.comparison-table tbody tr:last-child td { border-bottom: none; }
+.comparison-table tbody tr:last-child td:first-child { border-radius: 0 0 0 var(--radius-md); }
+.comparison-table tbody tr:last-child td:last-child { border-radius: 0 0 var(--radius-md) 0; }
+.comparison-table tbody td:first-child { font-weight: 700; color: var(--color-white); font-size: 18px; text-align: center; line-height: 1.3; }
+.comparison-table tbody td.highlight { background: rgba(0, 144, 232, 0.05); color: rgba(255,255,255,0.85); }
+.comparison-table tbody tr:nth-child(even) td.highlight { background: rgba(0, 144, 232, 0.08); }
+.comparison-table tbody tr { transition: background 0.2s ease; }
+.comparison-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+.comparison-table strong { color: var(--color-white); font-weight: 700; }
+
+
+/* ===== PROVEN INNOVATION SECTION ===== */
+.proven-section { background: var(--bg-light); padding: 100px 0; }
+.award-line { text-align: center; font-size: 17px; font-style: italic; color: var(--color-body); margin-bottom: 48px; padding-top: 8px; }
+.award-line strong { color: var(--color-heading); }
+.closing-statement { text-align: center; font-size: 20px; font-weight: 500; color: var(--color-heading); max-width: 700px; margin: 0 auto; font-style: italic; }
+
+
+/* ===== CTA BAND ===== */
+.cta-band { background: var(--bg-dark); padding: 80px 0; }
+.cta-card {
+  background: var(--bg-dark-card);
+  border-radius: var(--radius-lg);
+  padding: 50px 60px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  border: 2px solid rgba(0, 144, 232, 0.35);
+  box-shadow: 0 0 30px rgba(0, 144, 232, 0.15), inset 0 0 30px rgba(0, 144, 232, 0.03);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at 50% 100%, rgba(0, 144, 232, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.cta-card:hover {
+  border-color: rgba(0, 144, 232, 0.7);
+  box-shadow: 0 0 70px rgba(0, 144, 232, 0.45), 0 0 140px rgba(0, 144, 232, 0.2), inset 0 0 50px rgba(0, 144, 232, 0.06);
+}
+.cta-card h2 { color: var(--color-white); font-size: 32px; margin-bottom: 16px; }
+.cta-card p { color: rgba(255,255,255,0.8); font-size: 18px; margin-bottom: 28px; }
+
+
+/* ===== FAQ ACCORDION (ScenarioAccordion style — used on ALL pages) ===== */
+.faq-accordion { max-width: 100%; }
+.faq-item { border-bottom: 1px solid rgba(0,0,0,0.08); box-shadow: inset 0 0 0 rgba(0, 144, 232, 0); transition: box-shadow 0.25s ease; }
+.faq-item:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
+.faq-item--active { box-shadow: inset 3px 0 0 var(--color-blue-bright); }
+.faq-header { display: flex; align-items: center; gap: 16px; width: 100%; padding: 20px 16px; background: none; border: none; cursor: pointer; font-family: var(--font-heading); transition: background 0.2s ease; }
+.faq-header:hover { background: rgba(0, 144, 232, 0.04); }
+.faq-icon { flex-shrink: 0; width: 42px; height: 42px; background: var(--color-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px var(--glow-blue); }
+.faq-icon svg { width: 20px; height: 20px; }
+.faq-title { flex: 1; text-align: left; font-size: 19px; font-weight: 700; color: var(--color-heading); }
+.faq-item--active .faq-title { color: var(--color-blue); }
+.faq-chevron { flex-shrink: 0; font-size: 20px; color: var(--color-blue-bright); transition: transform 0.2s ease; }
+.faq-answer { display: none; padding: 0 16px 24px 74px; }
+.faq-answer p { font-size: 16px; color: var(--color-body); margin-bottom: 0; line-height: 1.6; }
+
+
+/* ===== FOOTER ===== */
+.footer-divider { height: 3px; background: var(--color-blue-bright); box-shadow: 0 0 12px var(--glow-blue), 0 0 24px rgba(0, 144, 232, 0.15); }
+.footer { background: var(--bg-footer); color: rgba(255,255,255,0.6); padding: 60px 0 30px; font-size: 14px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer h6 { color: var(--color-white); margin-bottom: 16px; }
+.footer a { color: var(--color-blue-bright); transition: color 0.2s; }
+.footer a:hover { color: var(--color-white); }
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 8px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; font-size: 13px; color: rgba(255,255,255,0.4); }
+.footer-bottom a { color: var(--color-blue-bright); }
+
+
+/* ===== SCROLL REVEAL =====
+   Progressive enhancement: only hide elements once JS adds .js-ready to <html>.
+   Without JS, content stays fully visible. */
+.js-ready .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js-ready .reveal.visible { opacity: 1; transform: translateY(0); }
+.js-ready .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js-ready .reveal-left.visible { opacity: 1; transform: translateX(0); }
+.js-ready .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js-ready .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+
+/* ===== MOBILE NAV =====
+   Hamburger button + slide-down panel, used on all pages.
+   Hidden on desktop (display: none), shown at ≤992px via media query below. */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  color: var(--color-heading);
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-toggle svg { display: block; width: 28px; height: 28px; }
+
+.mobile-nav {
+  display: none;
+  background: var(--bg-dark);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.mobile-nav.open { max-height: 800px; }
+.mobile-nav-list { list-style: none; padding: 0; margin: 0; }
+.mobile-nav-list li { border-bottom: 1px solid rgba(255,255,255,0.06); }
+.mobile-nav-list a,
+.mobile-nav-list button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 24px;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-white);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.mobile-nav-list a:active,
+.mobile-nav-list button:active { background: rgba(0, 144, 232, 0.12); }
+.mobile-nav-chevron {
+  font-size: 18px;
+  color: rgba(255,255,255,0.6);
+  transition: transform 0.25s ease;
+  line-height: 1;
+}
+.mobile-nav-parent.open .mobile-nav-chevron { transform: rotate(90deg); color: var(--color-blue-bright); }
+.mobile-nav-submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  background: rgba(0,0,0,0.25);
+  transition: max-height 0.3s ease;
+}
+.mobile-nav-parent.open .mobile-nav-submenu { max-height: 400px; }
+.mobile-nav-submenu li { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.mobile-nav-submenu li:last-child { border-bottom: none; }
+.mobile-nav-submenu a {
+  padding: 14px 24px 14px 44px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.75);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.mobile-nav-cta {
+  padding: 20px 24px;
+  background: rgba(0,0,0,0.2);
+}
+.mobile-nav-cta .btn--primary {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+
+/* =====================================================================
+   RESPONSIVE — INTERMEDIATE (1200px)
+   ===================================================================== */
+@media (max-width: 1200px) {
+  /* Typography */
+  h2 { font-size: 42px; }
+  h3 { font-size: 30px; }
+
+  /* Layout */
+  .section { padding: 60px 0; }
+  .container { padding: 0 28px; }
+
+  /* Two column — only gap change at 1200px; stacking handled at 992px */
+  .two-col { gap: 32px; }
+
+  /* Grids tighten */
+  .pillar-grid { gap: 20px; }
+  .pillar-card { padding: 28px 24px; }
+  .pillar-card h3 { font-size: 20px; }
+  .dark-card-grid, .dark-card-grid--2col { gap: 16px; }
+  .dark-card { padding: 24px; }
+  .detail-cards { gap: 24px; }
+  .case-cards { gap: 24px; }
+  .process-grid, .process-grid--3col { gap: 20px; }
+  .process-step p, .process-teaser { font-size: 14px; }
+  .icon-grid { gap: 28px; }
+}
+
+
+/* =====================================================================
+   RESPONSIVE — TABLET/MOBILE (992px)
+   ===================================================================== */
+@media (max-width: 992px) {
+  /* Typography */
+  h1 { font-size: 50px; }
+  h2 { font-size: 33px; }
+  h3 { font-size: 27px; }
+  h4 { font-size: 23px; }
+  p, li { font-size: 16px; }
+
+  /* Layout */
+  .section { padding: 50px 0; }
+  .container { padding: 0 20px; }
+
+  /* Nav swap — hide desktop, show mobile */
+  .nav { display: none; }
+  .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .mobile-nav { display: block; }
+
+  /* Hero */
+  .hero h1 { font-size: 38px; margin-bottom: 36px; }
+  .hero .hero-tagline { font-size: 20px; }
+
+  /* Two column stacks */
+  .two-col { grid-template-columns: 1fr; gap: 36px; }
+  .two-col--reverse { direction: ltr; grid-template-columns: 1fr; }
+
+  /* Grids stack */
+  .pillar-grid, .pillar-grid--2col { grid-template-columns: 1fr; }
+  .dark-card-grid, .dark-card-grid--2col { grid-template-columns: 1fr; }
+  .detail-cards { grid-template-columns: 1fr; }
+  .case-cards { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .process-grid-with-connectors::before { display: none; }
+  .process-grid--3col { grid-template-columns: 1fr; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .process-grid--3col.process-grid-with-connectors::before { display: none; }
+  .icon-grid { grid-template-columns: 1fr; max-width: 500px; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; }
+
+  /* FAQ — drop icon, tighten padding, maximize text width */
+  .faq-icon { display: none; }
+  .faq-header { padding: 18px 8px; gap: 12px; }
+  .faq-title { font-size: 17px; }
+  .faq-answer { padding: 0 8px 20px 8px; }
+
+  /* Comparison table — convert to card-stack layout */
+  .comparison-table-wrap { overflow-x: visible; }
+  .comparison-table, .comparison-table colgroup, .comparison-table col { display: block; }
+  .comparison-table colgroup { display: none; }
+  .comparison-table thead { display: none; }
+  .comparison-table tbody { display: block; }
+  .comparison-table tbody tr {
+    display: block;
+    background: var(--bg-dark-card);
+    border: 1px solid rgba(0, 144, 232, 0.15);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .comparison-table tbody tr:nth-child(even) { background: var(--bg-dark-card); }
+  .comparison-table tbody tr:last-child td { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .comparison-table tbody tr:last-child td:last-child { border-bottom: none; border-radius: 0; }
+  .comparison-table tbody tr:last-child td:first-child { border-radius: 0; }
+  .comparison-table tbody td {
+    display: block;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0 !important;
+  }
+  .comparison-table tbody td:first-child {
+    background: rgba(0, 144, 232, 0.08);
+    color: var(--color-white);
+    font-size: 16px;
+    text-align: left;
+    padding: 14px 18px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .comparison-table tbody td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--color-blue-bright);
+    margin-bottom: 6px;
+  }
+  .comparison-table tbody td[data-label="Freeform"]::before {
+    color: rgba(255,255,255,0.5);
+  }
+  .comparison-table tbody td.highlight {
+    background: rgba(0, 144, 232, 0.06);
+  }
+}
+
+
+/* =====================================================================
+   RESPONSIVE — SMALL MOBILE (600px)
+   ===================================================================== */
+@media (max-width: 600px) {
+  .process-grid { grid-template-columns: 1fr; }
+}
+
+
+/* =====================================================================
+   ACCESSIBILITY
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .js-ready .reveal, .js-ready .reveal-left, .js-ready .reveal-right { opacity: 1; transform: none; transition: none; }
+  .pillar-card, .dark-card, .detail-card, .case-card, .img-rounded { transition: none; }
+}
+
+
+/* =====================================================================
+   PAGE-SPECIFIC OVERRIDES (Home)
+   ===================================================================== */
+
+/* Hero subtitle — "— The AliveSim Platform —" line above tagline */
+.hero .hero-subtitle { color: rgba(255,255,255,0.85); font-weight: 400; margin-bottom: 16px; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; font-family: var(--font-heading); }
+
+/* Stats on dark section — white text with blue glow */
+.section--dark .stat-number {
+  color: var(--color-white);
+  text-shadow: 0 0 30px var(--glow-blue-strong), 0 0 60px var(--glow-blue), 0 0 100px rgba(0, 144, 232, 0.2);
+}
+.section--dark .stat-label { color: rgba(255,255,255,0.65); }
+
+/* Testimonial card */
+.testimonial-card { background: var(--bg-white); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-sm); border-left: 4px solid var(--color-blue); }
+.testimonial-card blockquote { font-size: 20px; font-style: italic; color: var(--color-body); line-height: 1.6; margin-bottom: 16px; }
+.testimonial-card cite { font-size: 14px; color: #999; font-style: normal; }
+
+/* Credibility section (award logos) */
+.credibility { text-align: center; }
+.credibility img { max-width: 200px; margin-bottom: 24px; opacity: 0.9; }
+
+/* Flip Cards (3D flip on click) */
+.diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+@media (max-width: 992px) { .diff-grid { grid-template-columns: 1fr; } }
+
+.flip-card { perspective: 1000px; height: 280px; cursor: pointer; }
+.flip-card-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-front, .flip-card-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-md);
+  padding: 32px;
+  background: var(--bg-dark-card);
+  border: 1px solid rgba(0, 144, 232, 0.15);
+  box-shadow: 0 0 20px rgba(0, 144, 232, 0.08);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.flip-card:hover .flip-card-front,
+.flip-card:hover .flip-card-back {
+  box-shadow: 0 0 35px var(--glow-blue), 0 0 70px rgba(0, 144, 232, 0.12);
+  border-color: rgba(0, 144, 232, 0.4);
+}
+.flip-card-back { transform: rotateY(180deg); }
+.flip-card h5 { color: var(--color-white); margin-bottom: 16px; font-size: 20px; }
+.flip-card .card-label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--color-blue-bright);
+  margin-bottom: 10px;
+}
+.flip-card p { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 8px; line-height: 1.5; }
+.flip-hint {
+  margin-top: auto; font-size: 12px; color: rgba(0, 144, 232, 0.6);
+  text-transform: uppercase; letter-spacing: 0.5px; padding-top: 12px;
+}
+
+/* Reveal delays used on Home hero */
+.reveal--delayed { transition-delay: 0.4s; }
+.reveal--delayed-2 { transition-delay: 0.7s; }
+
+/* Feature list staggered reveal */
+.feature-list li.reveal:nth-child(1) { transition-delay: 0s; }
+.feature-list li.reveal:nth-child(2) { transition-delay: 0.15s; }
+.feature-list li.reveal:nth-child(3) { transition-delay: 0.3s; }
+.feature-list li.reveal:nth-child(4) { transition-delay: 0.45s; }
+
+/* CTA h2 sized larger on Home than default canonical */
+.cta-card h2 { font-size: 38px; }
+
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="container">
+    <img src="https://www.syandus.com/hs-fs/hubfs/Syandus/Syandus%20Logo/Archive/Logo_215px-w.png?width=219&height=42&name=Logo_215px-w.png" alt="Syandus" class="logo">
+    <nav class="nav">
+      <a href="/">HOME</a>
+      <a href="/alivesim-platform">PLATFORM</a>
+      <a href="#">SOLUTIONS</a>
+      <a href="/blog">BLOG</a>
+      <a href="/about">ABOUT</a>
+      <a href="/home-landing-page" class="btn btn--nav">CONTACT US</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <ul class="mobile-nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/alivesim-platform">Platform</a></li>
+      <li class="mobile-nav-parent">
+        <button type="button" aria-expanded="false">
+          <span>Solutions</span>
+          <span class="mobile-nav-chevron">▸</span>
+        </button>
+        <ul class="mobile-nav-submenu">
+          <li><a href="/learning-and-development">Learning &amp; Development</a></li>
+          <li><a href="/sales-training-and-coaching">Sales Training</a></li>
+          <li><a href="/medical-education">Medical Education</a></li>
+          <li><a href="/medical-communications">Medical Communications</a></li>
+        </ul>
+      </li>
+      <li><a href="/blog">Blog</a></li>
+      <li class="mobile-nav-parent">
+        <button type="button" aria-expanded="false">
+          <span>About</span>
+          <span class="mobile-nav-chevron">▸</span>
+        </button>
+        <ul class="mobile-nav-submenu">
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/news">News</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <a href="/home-landing-page" class="btn btn--primary">Contact Us</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" style="background: url('https://www.syandus.com/hubfs/Syandus/Home/HomeBanner.webp') center center / cover no-repeat;">
+  <div class="hero-content">
+    <h1>Complete the Learning Journey</h1>
+    <p class="hero-subtitle">— The AliveSim Platform —</p>
+    <p class="hero-tagline">Build Immersive Scenarios. 2.5x Gains. Proven.</p>
+  </div>
+</section>
+
+<!-- ===== KNOW IT. APPLY IT. (full width container, staggered reveal) ===== -->
+<section class="section">
+  <div class="container text-center">
+    <h2 class="reveal" style="margin-bottom: 12px;">Know It. Apply It.</h2>
+    <h3 class="reveal reveal--delayed" style="font-weight: 400; color: var(--color-body); margin-bottom: 40px;">That's the Complete Learning Journey.</h3>
+    <div class="reveal reveal--delayed-2">
+      <p style="font-size: 20px; font-style: italic; margin-bottom: 8px;">Most learning stops at knowledge.</p>
+      <p style="font-size: 20px; font-style: italic; margin-bottom: 8px;">That's where it falls short, because applying knowledge is the part that makes learning inspiring, relevant, and memorable.</p>
+      <p style="font-size: 20px; font-style: italic; margin-bottom: 8px;">It's what makes it stick.</p>
+      <p style="font-size: 20px; font-style: italic;">AliveSim completes the journey — real-world scenarios with expert guidance that enable learners to properly apply what they know.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY ALIVESIM WORKS — BLOCK 1 ===== -->
+<section class="section section--light">
+  <div class="container">
+    <h2 class="text-center reveal" style="margin-bottom: 60px;">Why AliveSim Works</h2>
+    <div class="two-col">
+      <div class="reveal-left">
+        <p><strong>Learners Apply What They Learned</strong> – Multiple interactive avatars bring real-world scenarios to life through AI-enhanced conversations, providing expert guidance at decision points.</p>
+        <p><strong>Drive Learning Outcomes</strong> – Reveal the nuances of what they learned so learners understand why it matters and how to apply it effectively.</p>
+        <p><strong>Deliver Personalized Guidance</strong> – Scale the wisdom of your best mentors that spark "aha" moments.</p>
+      </div>
+      <div class="reveal-right">
+        <img src="https://www.syandus.com/hubfs/Syandus/Videos/Home/AliveSimPlatform_v2.mp4/medium.jpg" alt="AliveSim Platform Video" class="img-rounded" onerror="this.style.background='linear-gradient(135deg, #0A1A2E, #0070C0)'; this.style.height='300px';">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY ALIVESIM WORKS — BLOCK 2 ===== -->
+<section class="section">
+  <div class="container">
+    <div class="two-col two-col--reverse">
+      <div class="reveal-right">
+        <p><strong>Scale Excellence and Accelerate Results</strong> – Deliver to every learner, anywhere, on any device. Quickly create, edit, clone, and translate scenarios to address emerging needs.</p>
+        <p><strong>Drive Measurable Impact</strong> – Track decision patterns to show performance gains and demonstrate mastery of pivotal decisions.</p>
+      </div>
+      <div class="reveal-left">
+        <img src="https://www.syandus.com/hubfs/Syandus/Home/OfficeDiscussion3.webp" alt="AliveSim characters interacting in an office" class="img-rounded">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPLETE THE LEARNING JOURNEY — FEATURE LIST ===== -->
+<section class="section section--light">
+  <div class="container--slim">
+    <h2 class="text-center reveal" style="margin-bottom: 50px;">Complete the Learning Journey</h2>
+    <ul class="feature-list">
+      <li class="reveal">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L19.18 7 12 10.82 4.82 7 12 4.18zM4 8.72l7 3.5v7.56l-7-3.5V8.72zm9 11.06v-7.56l7-3.5v7.56l-7 3.5z"/></svg></div>
+        <div><p><strong>Learn It. Apply It. Keep It.</strong> – Build learner confidence, retention, and lasting behavior change through realistic scenarios.</p></div>
+      </li>
+      <li class="reveal">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg></div>
+        <div><p><strong>Stories That Engage</strong> – Weave compelling narratives through dynamic conversations that make learning memorable.</p></div>
+      </li>
+      <li class="reveal">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15h14v2H5v-2zm0-4h14v2H5v-2zm0-4h14v2H5V7z"/></svg></div>
+        <div><p><strong>Proof That It's Working</strong> – Demonstrate to stakeholders that learners are getting it with real outcomes data from inside the scenarios.</p></div>
+      </li>
+      <li class="reveal">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg></div>
+        <div><p><strong>No More Clunky Simulations</strong> – Create immersive experiences in hours, not weeks—without technical skills.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== CTA BAND #1 — OPTION D ===== -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h2>Ready to Complete Your Learning Journeys?</h2>
+      <p>Add the missing piece to your learning programs and make your learning investments pay off.</p>
+      <a href="/home-landing-page" class="btn btn--primary">Schedule Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BUILT IN THE TRENCHES ===== -->
+<section class="section">
+  <div class="container">
+    <h2 class="text-center reveal" style="margin-bottom: 24px;">Built in the Trenches, Not in a Vacuum</h2>
+  </div>
+  <div class="container--slim">
+    <div class="reveal">
+      <p>We've been building immersive learning experiences with physicians, sales teams, and Fortune 500 companies for years — learning what works, refining what doesn't, and improving the platform with every program. Eight National Science Foundation awards have fueled the research. Thousands of learners have validated the approach.</p>
+      <p>We're not a startup. We're a team that's been solving this problem for a long time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="section section--dark" style="padding: 80px 0;">
+  <div class="container text-center">
+    <h2 class="reveal" style="color: var(--color-white); margin-bottom: 16px;">What Our Customers Are Achieving</h2>
+    <p class="reveal" style="color: rgba(255,255,255,0.7); margin-bottom: 50px;">Demonstrated results across healthcare and enterprise organizations</p>
+    <div class="stats-row reveal">
+      <div class="stat">
+        <div class="stat-number" data-target="2.5" data-suffix="x">0</div>
+        <div class="stat-label">Increased decision-making<br>performance</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-target="92" data-suffix="%">0</div>
+        <div class="stat-label">Of participants progress to<br>additional scenarios</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-target="76" data-suffix="">0</div>
+        <div class="stat-label">Net Promoter Score<br>from learners</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIAL + LEARNER QUOTES + COLLABORATING ACROSS SECTORS ===== -->
+<section class="section section--light">
+  <div class="container--slim">
+    <div class="testimonial-card reveal">
+      <blockquote>"AliveSim Studio enables us to quickly create immersive, interesting and engaging scenarios that help learners improve their approach and decision making for these real-life communications, while also tracking their progress."</blockquote>
+      <cite>– Learning Director, Global Pharmaceutical Agency</cite>
+    </div>
+    <div style="margin-top: 40px;" class="reveal">
+      <h5 style="margin-bottom: 12px;">What Learners Say</h5>
+      <p style="font-style: italic;">"Hands on. Interactive. Great experience"</p>
+      <p style="font-style: italic;">"Love this! Makes me want to keep going."</p>
+    </div>
+    <div style="margin-top: 48px; text-align: center;" class="reveal">
+      <h5 style="margin-bottom: 8px;">Collaborating Across Sectors</h5>
+      <p style="color: var(--color-heading);">Pharmaceutical | Education Providers | Training Teams | Medical Education | Healthcare Organizations | Fortune 500 Companies</p>
+      <p style="margin-top: 12px;">Solutions include: <a href="/learning-and-development">L&D</a>, <a href="/sales-training-and-coaching">Sales-Coaching</a>, <a href="/medical-education">Medical Education</a>, and <a href="/medical-communications">Life Science</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT SETS ALIVESIM APART — DARK SHOWCASE WITH FLIP CARDS ===== -->
+<section class="section section--dark" style="padding: 80px 0;">
+  <div class="container">
+    <h2 class="text-center reveal" style="color: var(--color-white); margin-bottom: 48px;">What Sets AliveSim Apart?</h2>
+
+    <!-- TOP ROW: 3 flip cards -->
+    <div class="diff-grid reveal">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h5>Multi-Avatar Innovation</h5>
+            <p class="card-label">What It Delivers</p>
+            <p>Conversation, decision, and game engines work together with AI to create dynamic multi-avatar interactions that feel real and drive engagement.</p>
+            <div class="flip-hint">Click for Why It Matters →</div>
+          </div>
+          <div class="flip-card-back">
+            <h5>Multi-Avatar Innovation</h5>
+            <p class="card-label">Why It Matters</p>
+            <p>Multiple avatars can hold a nuanced conversation, uncovering different viewpoints, and show what great (and not so great) looks like. This immersion drives the unique learning methodology of AliveSim.</p>
+            <div class="flip-hint">← Click to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h5>Learn by Doing Framework</h5>
+            <p class="card-label">What It Delivers</p>
+            <p>Strategic combination of realistic situations, decision making, and feedback, designed to incorporate cognitive apprenticeship and skill-driven learning methodologies.</p>
+            <div class="flip-hint">Click for Why It Matters →</div>
+          </div>
+          <div class="flip-card-back">
+            <h5>Learn by Doing Framework</h5>
+            <p class="card-label">Why It Matters</p>
+            <p>Personalized feedback helps learners recognize optimal approaches, while consistent delivery lets you measure how well they're applying what they learned.</p>
+            <div class="flip-hint">← Click to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h5>Intelligent Analytics</h5>
+            <p class="card-label">What It Delivers</p>
+            <p>Track how learners apply their knowledge in real-world scenarios. See their thinking process evolve through guided mentoring.</p>
+            <div class="flip-hint">Click for Why It Matters →</div>
+          </div>
+          <div class="flip-card-back">
+            <h5>Intelligent Analytics</h5>
+            <p class="card-label">Why It Matters</p>
+            <p>Understand initial instincts, then watch as structured guidance helps everyone recognize and reach optimal approaches.</p>
+            <div class="flip-hint">← Click to flip back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE BAND — single panoramic image -->
+    <div class="image-band reveal">
+      <img src="https://www.syandus.com/hubfs/Syandus/Home/OfficeDiscussion3.webp" alt="AliveSim immersive scenario">
+    </div>
+
+    <!-- BOTTOM ROW: 3 flip cards -->
+    <div class="diff-grid reveal">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h5>AI Enhanced Development</h5>
+            <p class="card-label">What It Delivers</p>
+            <p>AI-powered voice generation and content development tools.</p>
+            <div class="flip-hint">Click for Why It Matters →</div>
+          </div>
+          <div class="flip-card-back">
+            <h5>AI Enhanced Development</h5>
+            <p class="card-label">Why It Matters</p>
+            <p>Create engaging content faster while maintaining control. Content is locked and consistent. <strong>No AI surprises in delivery</strong>.</p>
+            <div class="flip-hint">← Click to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h5>Access Anywhere</h5>
+            <p class="card-label">What It Delivers</p>
+            <p>Access on any device through a web browser — no app needed. Works seamlessly on phones, tablets, PCs, and Macs.</p>
+            <div class="flip-hint">Click for Why It Matters →</div>
+          </div>
+          <div class="flip-card-back">
+            <h5>Access Anywhere</h5>
+            <p class="card-label">Why It Matters</p>
+            <p>No downloads, no special software. Learners open a link and start learning — removing every barrier between your content and your audience.</p>
+            <div class="flip-hint">← Click to flip back</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h5>Enterprise-Ready Platform</h5>
+            <p class="card-label">What It Delivers</p>
+            <p>Secure, scalable technology with flexible delivery options through our cloud service, including LMS integration via SCORM.</p>
+            <div class="flip-hint">Click for Why It Matters →</div>
+          </div>
+          <div class="flip-card-back">
+            <h5>Enterprise-Ready Platform</h5>
+            <p class="card-label">Why It Matters</p>
+            <p>Robust infrastructure ensures reliable delivery and enterprise-grade stability for your most critical learning programs.</p>
+            <div class="flip-hint">← Click to flip back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROVEN SUCCESS / NSF ===== -->
+<section class="section">
+  <div class="container text-center credibility reveal">
+    <img src="https://www.syandus.com/hubfs/Syandus/Home/NSF.webp" alt="National Science Foundation Logo">
+    <h2 style="margin-bottom: 16px;">Proven Success</h2>
+    <p style="max-width: 700px; margin: 0 auto;">Built on years of cognitive science research, winner of 8 <strong>National Science Foundation</strong> Small Business Innovation Research Awards. Trust your learning outcomes to battle-tested, AI-enhanced technology and methodology. We're not a startup.</p>
+  </div>
+</section>
+
+<!-- ===== CTA BAND #2 — OPTION D ===== -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h2>Transform Your Vision into Reality</h2>
+      <p>AliveSim combines your expertise with our proven platform. Design, develop, and deploy engaging scenarios that drive measurable results.</p>
+      <a href="/home-landing-page" class="btn btn--primary">Schedule Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FAQ (Light)
+     Style: ScenarioAccordion from platform-components_2
+     Content TBD — placeholder structure
+     ============================================= -->
+<section class="section section--light">
+  <div class="container--slim">
+    <h2 class="text-center reveal" style="margin-bottom: 40px;">Frequently Asked Questions</h2>
+    <div class="faq-accordion reveal">
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <span class="faq-title">What is AliveSim and how is it different from traditional e-learning?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-3V6a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3v1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM9 6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1H9V6z"/></svg>
+          </div>
+          <span class="faq-title">What kinds of organizations and teams use AliveSim?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <span class="faq-title">What kind of measurable results should we expect from AliveSim programs?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-header">
+          <div class="faq-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <span class="faq-title">How quickly can we get an AliveSim scenario up and running?</span>
+          <span class="faq-chevron">▸</span>
+        </button>
+        <div class="faq-answer">
+          <p>FAQ content TBD — to be pulled from existing FAQ research documents.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== ELECTRIC BLUE DIVIDER ===== -->
+<div class="footer-divider"></div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h6>About Us</h6>
+        <p style="color: rgba(255,255,255,0.5);">Syandus' AliveSim platform lets you create immersive multi-avatar scenarios where learners apply knowledge with expert guidance at every decision point. Build in hours, not weeks. Track decision patterns. 2.5x proven results.</p>
+        <p style="margin-top: 12px;"><a href="/security-legal">Security &amp; Legal Hub</a></p>
+      </div>
+      <div>
+        <h6>Solutions</h6>
+        <ul>
+          <li><a href="/learning-and-development">Learning &amp; Development</a></li>
+          <li><a href="/sales-training-and-coaching">Sales Training and Coaching</a></li>
+          <li><a href="/medical-education">Medical Education</a></li>
+          <li><a href="/medical-communications">Medical Communications</a></li>
+        </ul>
+      </div>
+      <div>
+        <h6>Contact Us</h6>
+        <p style="color: rgba(255,255,255,0.5);">610.321.2500</p>
+        <p><a href="mailto:info@syandus.com">info@syandus.com</a></p>
+        <p style="margin-top: 8px; color: rgba(255,255,255,0.5);">600 Eagleview Blvd., Suite 300<br>Exton, PA 19341</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Copyright 2026 Syandus. All rights reserved. <a href="/legal/privacy-policy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// Mark <html> as js-ready so reveal CSS activates. Without this, content stays
+// visible (progressive enhancement — if JS fails, page still renders correctly).
+document.documentElement.classList.add('js-ready');
+
+// Scroll reveal — staggered, once-only, cleans up inline styles after animation
+(function() {
+  var els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  if (!els.length) return;
+
+  // Safety net: if IntersectionObserver isn't available or doesn't fire,
+  // force everything visible after 2s so mobile users don't see blank sections.
+  var safetyTimer = setTimeout(function() {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }, 2000);
+
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el) { el.classList.add('visible'); });
+    clearTimeout(safetyTimer);
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var parent = el.parentElement;
+      var siblingReveals = Array.prototype.filter.call(
+        parent.children,
+        function(c) { return c.classList && (c.classList.contains('reveal') || c.classList.contains('reveal-left') || c.classList.contains('reveal-right')); }
+      );
+      var idx = siblingReveals.indexOf(el);
+      var delay = (idx > 0) ? idx * 100 : 0;
+      setTimeout(function() {
+        el.classList.add('visible');
+        setTimeout(function() {
+          el.style.transition = '';
+          el.style.transform = '';
+        }, 800);
+      }, delay);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.1 });
+  els.forEach(function(el) { observer.observe(el); });
+
+  var firstVisible = new MutationObserver(function() {
+    if (document.querySelector('.reveal.visible, .reveal-left.visible, .reveal-right.visible')) {
+      clearTimeout(safetyTimer);
+      firstVisible.disconnect();
+    }
+  });
+  firstVisible.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+})();
+
+// Count-up animation
+(function() {
+  var stats = document.querySelectorAll('.stat-number');
+  var animated = false;
+  if (!stats.length) return;
+  function animateCount(el) {
+    var target = parseFloat(el.getAttribute('data-target'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var isDecimal = target % 1 !== 0;
+    var duration = 1800;
+    var start = performance.now();
+    function tick(now) {
+      var elapsed = now - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var current = eased * target;
+      el.textContent = isDecimal ? current.toFixed(1) + suffix : Math.round(current) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !animated) {
+        animated = true;
+        stats.forEach(animateCount);
+      }
+    }, { threshold: 0.3 });
+    observer.observe(stats[0].closest('.stats-row'));
+  }
+})();
+
+// Mobile nav — hamburger toggle + submenu accordion
+(function() {
+  var toggle = document.querySelector('.nav-toggle');
+  var mobileNav = document.querySelector('.mobile-nav');
+  if (!toggle || !mobileNav) return;
+
+  toggle.addEventListener('click', function() {
+    var isOpen = mobileNav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+
+  var parentButtons = mobileNav.querySelectorAll('.mobile-nav-parent > button');
+  parentButtons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var parent = btn.parentElement;
+      var isOpen = parent.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+
+  var leafLinks = mobileNav.querySelectorAll('a');
+  leafLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      mobileNav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      mobileNav.querySelectorAll('.mobile-nav-parent.open').forEach(function(p) {
+        p.classList.remove('open');
+        var b = p.querySelector('button');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+})();
+
+// FAQ Accordion — scoped per .faq-accordion container (see canonical CSS v1.3
+// companion JS note). When a header is clicked, close only the other items
+// inside the same accordion, not every accordion on the page.
+document.querySelectorAll('.faq-header').forEach(function(button) {
+  button.addEventListener('click', function() {
+    var item = button.parentElement;
+    var accordion = item.closest('.faq-accordion');
+    var content = item.querySelector('.faq-answer');
+    var chevron = item.querySelector('.faq-chevron');
+    var isActive = item.classList.contains('faq-item--active');
+
+    // Close sibling items within THIS accordion only
+    accordion.querySelectorAll('.faq-item').forEach(function(i) {
+      i.classList.remove('faq-item--active');
+      i.querySelector('.faq-answer').style.display = 'none';
+      i.querySelector('.faq-chevron').textContent = '▸';
+    });
+
+    // Open clicked item if it wasn't already active
+    if (!isActive) {
+      item.classList.add('faq-item--active');
+      content.style.display = 'block';
+      chevron.textContent = '▾';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
